@@ -11,3 +11,48 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model message {
+  id String @id @default(uuid()) 
+  isImage Boolean?
+  imageSrc String?
+  username String
+  dateCreated DateTime @default(now())
+  user user @relation(fields: [username] , references: [username])
+  groupID String 
+  group chat @relation(fields: [groupID] , references: [id])
+  isRead Boolean
+}
+
+model chat {
+  id String @id @default(uuid())
+  members user[]
+  messages message[]
+}
+
+model user {
+  username String @id
+  name String
+  lastOnline DateTime
+  isOnline Boolean
+  avatar String
+  about String
+  messages message[]
+  chats chat[]
+  sentRequests     friendShip[] @relation("SentRequests")
+  receivedRequests friendShip[] @relation("ReceivedRequests")
+}
+
+enum requestStatus {
+  PENDING
+  ACCEPTED
+}
+
+model friendShip {
+  senderUsername String
+  receiverUsername String
+  status requestStatus @default(PENDING)
+  sender     user     @relation("SentRequests", fields: [senderUsername], references: [username])
+  receiver   user     @relation("ReceivedRequests", fields: [receiverUsername], references: [username])
+@@unique([senderUsername, receiverUsername]) 
+}
