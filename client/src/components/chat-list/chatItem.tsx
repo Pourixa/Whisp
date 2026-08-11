@@ -6,7 +6,7 @@ function Chat({ chat }: { chat: chat }) {
     const lastMessage = chat.messages[chat.messages.length - 1];
 
     return (
-        <Item className="grid grid-cols-[auto_1fr] grid-rows-2 gap-x-3.5 gap-y-0.5 items-center px-4 py-3.5">
+        <Item className="grid grid-cols-[auto_1fr] grid-rows-2 gap-x-3.5 gap-y-0.5 items-center px-4 py-3.5 active:bg-ring rounded-none">
             <ItemMedia variant="icon" className="row-span-2 col-start-1 flex items-center justify-center h-full">
                 <Avatar />
             </ItemMedia>

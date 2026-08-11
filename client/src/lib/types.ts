@@ -9,3 +9,15 @@ export type chat = {
   members: String[],
   messages: message[]
 }
+
+
+export type user = {
+  name:String,
+  username:String,
+  lastOnline:Date,
+  isOnline:boolean,
+  avatar:String,
+  about:String,
+  messages:message[]
+  isFriend:boolean
+}
