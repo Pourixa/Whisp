@@ -25,41 +25,27 @@ const user1:user = {
     lastOnline:new Date(),
     about:"Yo",
     avatar:"d",
-    isFriend:false,
+    isFriend:true,
 }
 
 
-const MAX_ABOUT_CHARS = 50
-const MAX_NAME_CHARS = 25
-export function EditProfile() {
-    const [AboutChars,setAboutChars] = useState(user1.about.length)
-    const [nameChars,setNameChars] = useState(user1.name.length)
+export function ViewProfile() {
     return <div className='grid  items-center h-dvh p-4'>
         <ArrowLeft className='flex justify-center items-center '/>
         <Avatar className={'w-32 h-32 justify-self-center'}/>
-        <div className='flex w-full justify-around items-center'>
-            <Button>Upload</Button>
-            {user1.avatar != "" && <Button variant={"destructive"}>Remove</Button>}
-        </div>
         <div className='grid'>
             <p className='pl-4'>Name</p>
-            <Input maxLength={MAX_NAME_CHARS} defaultValue={String(user1.name)} onChange={(e) => {
-                return setNameChars(e.target.value.length)
-            }}/>
-            <span className='justify-self-end pr-2'>{nameChars} / {MAX_NAME_CHARS} </span>
+            <Input className='pointer-events-none' readOnly defaultValue={String(user1.name)}/>
         </div>
         <div className='grid'>
             <p className='pl-4'>Bio</p>
-            <Textarea maxLength={MAX_ABOUT_CHARS} defaultValue={String(user1.about)} onChange={(e) => {
-                return setAboutChars(e.target.value.length)
-            }}/>
-            <span className='justify-self-end pr-2'>{AboutChars} / {MAX_ABOUT_CHARS} </span>
+            <Textarea className='pointer-events-none' readOnly defaultValue={String(user1.about)}/>
         </div>
         
         <div>
-            <p className='pl-4'>Username (Read Only)</p>
-            <Input className='pointer-events-none text-muted-foreground' readOnly value={String(user1.username)}/>
+            <p className='pl-4'>Username</p>
+            <Input className='pointer-events-none' readOnly value={String(user1.username)}/>
         </div>
-        <Button>Save</Button>
+            {user1.isFriend ? <Button variant={"destructive"}>Remove Friend</Button> : <Button variant={"default"}>Add Friend</Button>}
     </div>
 }

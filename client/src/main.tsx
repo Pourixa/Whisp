@@ -4,8 +4,9 @@ import './index.css'
 import Chats from './chats.tsx'
 import { ChatPage } from './chatPage.tsx'
 import { EditProfile } from './EditProfile.tsx'
+import { ViewProfile } from './viewProfile.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <EditProfile />
+    <ViewProfile/>
   </StrictMode>,
 )
