@@ -22,7 +22,7 @@ import { Tabs } from "#components/chat-list/badges";
       }
     ]
   }
-  const chats:chat[] = [chat1,chat1]
+  const chats:chat[] = [chat1,chat1,chat1,chat1,chat1,chat1,chat1,chat1]
 
 function Chats() {
   const [selected,setSelected] = useState("phone")
@@ -30,16 +30,18 @@ function Chats() {
 
   return (
     <div className="flex-col">
-      <header className="flex justify-between p-4">
-        <h1 className="flex justify-center items-center">Whisp</h1>
-        <div className="flex gap-4 items-center">
-          <FilterMenu filter={filter} setFilter={setFilter}/>
-          <Avatar/>
+      <div className="sticky top-0 bg-background z-50">
+        <header className="flex justify-between p-4">
+          <h1 className="flex justify-center items-center">Whisp</h1>
+          <div className="flex gap-4 items-center">
+            <FilterMenu filter={filter} setFilter={setFilter}/>
+            <Avatar/>
+          </div>
+        </header>
+        <div className="flex items-center p-4 gap-2">
+          <Search/>
+          <Input type="text" placeholder="Search"/>
         </div>
-      </header>
-      <div className="flex items-center p-4 gap-2">
-        <Search/>
-        <Input type="text" placeholder="Search"/>
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
       <main>

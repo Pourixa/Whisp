@@ -5,6 +5,6 @@ import Chats from './chats.tsx'
 import { ChatPage } from './chatPage.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ChatPage />
+    <Chats />
   </StrictMode>,
 )
