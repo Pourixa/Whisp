@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 
 
 const user1:user = {
-    name:"mamad",
+    name:"makjsdlkjfklsdjflkjsdkfjklsjfklsdjfklsdjfkldsmad",
     username:"MoxSad",
     messages: [
            {
@@ -29,7 +29,7 @@ const user1:user = {
 }
 
 const user2:user = {
-    name:"mamad",
+    name:"mamafkldsjkfjdslkfjlsdkjflksdjfklsdjlfkjdd",
     username:"moxsad",
     messages: [
            {
@@ -130,15 +130,15 @@ const messages:message[] = [
       },
 ]
 export function ChatPage() {
-    return <div className="h-svh flex flex-col justify-between ">
+    return <div className="h-svh flex flex-col justify-between">
         <header className="flex justify-between gap-4 p-2 items-center">
 
             <div className="flex items-center gap-4">
               <ArrowLeft/>
               <Avatar/>
               </div>
-            <div className="grow flex flex-col">
-                <span>{user1.name}</span>
+            <div className="grid">
+                <span className="line-clamp-1 text-ellipsis">{user1.name}</span>
                 <span className="text-muted-foreground">{user1.isOnline ? "Online" : "Last seen " + user1.lastOnline.toLocaleTimeString("en-GB").slice(0,5)}</span>
             </div>
             {user1.isFriend ? <Button variant={"destructive"}>Remove Friend</Button> : <Button variant={"default"}>Add Friend</Button>}
