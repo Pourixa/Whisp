@@ -14,6 +14,7 @@ datasource db {
 
 model message {
   id String @id @default(uuid()) 
+  content String
   isImage Boolean?
   imageSrc String?
   username String
