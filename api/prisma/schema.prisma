@@ -14,7 +14,7 @@ datasource db {
 
 model message {
   id String @id @default(uuid()) 
-  content String
+  content String?
   isImage Boolean?
   imageSrc String?
   username String
@@ -22,7 +22,6 @@ model message {
   user user @relation(fields: [username] , references: [username])
   groupID String 
   group chat @relation(fields: [groupID] , references: [id])
-  isRead Boolean
 }
 
 model chat {
