@@ -1,40 +1,23 @@
 import express from "express";
 import http from "http";
-import WebSocket, { WebSocketServer } from "ws";
+import { createServer } from 'node:http';
+import { Server } from 'socket.io';
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server);
 
 app.use(express.json());
 
-app.get("/api/health", (_req, res) => {
+app.get("/", (req, res) => {
   res.json({
     status: "ok",
   });
 });
 
-const server = http.createServer(app);
 
-const wss = new WebSocketServer({
-  server,
-});
-
-wss.on("connection", (socket) => {
-  console.log("WebSocket client connected");
-
-  socket.on("message", (message) => {
-    console.log("Received:", message.toString());
-
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        content: message.toString(),
-      })
-    );
-  });
-
-  socket.on("close", () => {
-    console.log("WebSocket client disconnected");
-  });
+io.on('connection', (socket) => {
+  console.log('a user connected');
 });
 
 const PORT = 8585;
