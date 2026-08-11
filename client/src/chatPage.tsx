@@ -70,6 +70,63 @@ const messages:message[] = [
         content: "It's going great! The Prisma schema is done.",
         username: "moxsad",
         dateCreated:new Date()
+      },{
+        content: "Hey Bob! How is the messaging app going?", 
+        username: "moxsad",
+        dateCreated:new Date()
+      },
+      {
+        content: "It's going great! The Prisma schema is done.",
+        username: "moxsad",
+        dateCreated:new Date()
+      },  
+           {
+        content: "Hey Bob! How is the messaging app going?", 
+        username: "moxsad",
+        dateCreated:new Date()
+      },
+      {
+        content: "It's going great! The Prisma schema is done.",
+        username: "moxsad",
+        dateCreated:new Date()
+      },{
+        content: "Hey Bob! How is the messaging app going?", 
+        username: "moxsad",
+        dateCreated:new Date()
+      },
+      {
+        content: "It's going great! The Prisma schema is done.",
+        username: "moxsad",
+        dateCreated:new Date()
+      },  
+           {
+        content: "Hey Bob! How is the messaging app going?", 
+        username: "moxsad",
+        dateCreated:new Date()
+      },
+      {
+        content: "It's going great! The Prisma schema is done.",
+        username: "moxsad",
+        dateCreated:new Date()
+      },{
+        content: "Hey Bob! How is the messaging app going?", 
+        username: "moxsad",
+        dateCreated:new Date()
+      },
+      {
+        content: "It's going great! The Prisma schema is done.",
+        username: "moxsad",
+        dateCreated:new Date()
+      },  
+           {
+        content: "Hey Bob! How is the messaging app going?", 
+        username: "moxsad",
+        dateCreated:new Date()
+      },
+      {
+        content: "It's going great! The Prisma schema is done.",
+        username: "moxsad",
+        dateCreated:new Date()
       },
 ]
 export function ChatPage() {
@@ -86,7 +143,7 @@ export function ChatPage() {
             </div>
             {user1.isFriend ? <Button variant={"destructive"}>Remove Friend</Button> : <Button variant={"default"}>Add Friend</Button>}
         </header>
-        <main className="grow">
+        <main className="grow overflow-y-scroll mb-1 ml-1 mr-1">
             {messages.map((mes,idx) => {
                 return <ChatMessage message={mes} key={idx}/>
             })}
