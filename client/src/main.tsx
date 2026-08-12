@@ -5,8 +5,9 @@ import Chats from './chats.tsx'
 import { ChatPage } from './chatPage.tsx'
 import { EditProfile } from './EditProfile.tsx'
 import { ViewProfile } from './viewProfile.tsx'
+import { Signup } from './signup.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ViewProfile/>
+    <EditProfile/>
   </StrictMode>,
 )

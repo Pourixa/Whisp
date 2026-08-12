@@ -41,14 +41,14 @@ export function EditProfile() {
             <Button>Upload</Button>
             {user1.avatar != "" && <Button variant={"destructive"}>Remove</Button>}
         </div>
-        <div className='grid'>
+        <div className='grid gap-0.5'>
             <p className='pl-4'>Name</p>
             <Input maxLength={MAX_NAME_CHARS} defaultValue={String(user1.name)} onChange={(e) => {
                 return setNameChars(e.target.value.length)
             }}/>
             <span className='justify-self-end pr-2'>{nameChars} / {MAX_NAME_CHARS} </span>
         </div>
-        <div className='grid'>
+        <div className='grid gap-0.5'>
             <p className='pl-4'>Bio</p>
             <Textarea maxLength={MAX_ABOUT_CHARS} defaultValue={String(user1.about)} onChange={(e) => {
                 return setAboutChars(e.target.value.length)
@@ -56,7 +56,7 @@ export function EditProfile() {
             <span className='justify-self-end pr-2'>{AboutChars} / {MAX_ABOUT_CHARS} </span>
         </div>
         
-        <div>
+        <div className='grid gap-0.5'>
             <p className='pl-4'>Username (Read Only)</p>
             <Input className='pointer-events-none text-muted-foreground' readOnly value={String(user1.username)}/>
         </div>

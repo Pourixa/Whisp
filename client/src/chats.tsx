@@ -6,7 +6,7 @@ import { Chat } from "#components/chat-list/chatItem";
 import { useState } from "react";
 import { FilterMenu } from "#components/chat-list/filter";
 import { Tabs } from "#components/chat-list/badges";
-import { BsWind } from "react-icons/bs";
+import { Logo } from "#components/logo";
   const chat1:chat = {
     name:"Our group",
     members: ["reqz","mmd"],
@@ -33,10 +33,7 @@ function Chats() {
     <div className="flex-col">
       <div className="sticky top-0 bg-background z-50">
         <header className="flex justify-between p-4">
-          <div>
-            <BsWind/>
-            <h1 className="flex justify-center items-center">Whisp</h1>
-          </div>
+          <Logo/>
           <div className="flex gap-4 items-center">
             <FilterMenu filter={filter} setFilter={setFilter}/>
             <Avatar/>

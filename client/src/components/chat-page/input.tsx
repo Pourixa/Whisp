@@ -10,7 +10,7 @@ export function ChatInput()
             <InputGroupButton className="self-baseline-last">
                 <Image/>
             </InputGroupButton>
-            <InputGroupTextarea placeholder="Write something" minLength={1} className="max-h-32" onChange={(e) => {
+            <InputGroupTextarea placeholder="Write something" minLength={1} className="max-h-32 ml-0.5 mr-0.5" onChange={(e) => {
                 if(e.target.value.length > 0)
                     return setActive(true)
                 setActive(false)

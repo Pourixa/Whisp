@@ -33,16 +33,16 @@ export function ViewProfile() {
     return <div className='grid  items-center h-dvh p-4'>
         <ArrowLeft className='flex justify-center items-center '/>
         <Avatar className={'w-32 h-32 justify-self-center'}/>
-        <div className='grid'>
+        <div className='grid gap-0.5'>
             <p className='pl-4'>Name</p>
             <Input className='pointer-events-none' readOnly defaultValue={String(user1.name)}/>
         </div>
-        <div className='grid'>
+        <div className='grid gap-0.5'>
             <p className='pl-4'>Bio</p>
             <Textarea className='pointer-events-none' readOnly defaultValue={String(user1.about)}/>
         </div>
         
-        <div>
+        <div className='grid gap-0.5'>
             <p className='pl-4'>Username</p>
             <Input className='pointer-events-none' readOnly value={String(user1.username)}/>
         </div>
