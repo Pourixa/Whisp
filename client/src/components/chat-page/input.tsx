@@ -15,7 +15,7 @@ export function ChatInput()
                     return setActive(true)
                 setActive(false)
             }}/>
-            <InputGroupButton className={"self-baseline-last text-background flex justify-center align-middle "+(active ? "bg-primary" : "bg-muted-foreground pointer-events-none")}>
+            <InputGroupButton className={"self-baseline-last text-background bg-foreground flex justify-center align-middle disabled:pointer-events-none"} disabled={active ? false : true}>
                 <Send />
             </InputGroupButton>
             </InputGroup>

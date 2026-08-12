@@ -33,7 +33,7 @@ function Chats() {
     <div className="flex-col">
       <div className="sticky top-0 bg-background z-50">
         <header className="flex justify-between p-4">
-          <Logo/>
+          <Logo classname=""/>
           <div className="flex gap-4 items-center">
             <FilterMenu filter={filter} setFilter={setFilter}/>
             <Avatar/>
