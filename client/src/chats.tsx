@@ -3,7 +3,7 @@ import { Search} from"lucide-react"
 import type { chat } from "#lib/types";
 import { Avatar } from "#components/ui/avatar";
 import { Chat } from "#components/chat-list/chatItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilterMenu } from "#components/chat-list/filter";
 import { Tabs } from "#components/chat-list/badges";
 import { Logo } from "#components/logo";
@@ -28,6 +28,13 @@ import { Logo } from "#components/logo";
 function Chats() {
   const [selected,setSelected] = useState("phone")
   const [filter,setFilter] = useState("asc")
+  const [loading,setLoading] = useState(true)
+  const [user,setUser] = useState(null)
+  useEffect(() => {
+    async () => {
+      const user = await fetch("/")
+    }
+  })
 
   return (
     <div className="flex-col">

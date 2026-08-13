@@ -32,11 +32,12 @@ model chat {
 
 model user {
   username String @id
+  password String
   name String
-  lastOnline DateTime
-  isOnline Boolean
-  avatar String
-  about String
+  lastOnline DateTime @default(now())
+  isOnline Boolean @default(true)
+  avatar String @default("")
+  about String @default("")
   messages message[]
   chats chat[]
   sentRequests     friendShip[] @relation("SentRequests")
