@@ -9,14 +9,46 @@ const userRouter = express.Router()
 
 userRouter.get("/",authenticateUser,async (req:authReq, res,next) => {
     try {
-    const user = db.user.findUnique({
+    const user = await db.user.findUnique({
       where:{
         username:req.user.username
     }, 
-    include:{
-      chats:true
+include: {
+        chats: {
+          include: {
+            messages: {
+              orderBy: {
+                dateCreated: 'asc' 
+              }
+            },
+            members:{
+                where: {
+                    username:{
+                        not:req.user.username,
+                    }
+                },
+                include:{
+                    sentRequests:{
+                        where:{
+                            receiverUsername:req.user.username
+                        }
+                    },
+                    receivedRequests:{
+                        where:{
+                            senderUsername:req.user.username
+                        }
+                    }
+                },
+                omit:{
+                    password:true,
+                }
+            },      
+          }
+        }
+      },
+    omit:{
+        password:true,
     }})
-    
     res.json(user)
 } catch (e) {
     next(e)
@@ -52,11 +84,9 @@ userRouter.post("/login" , validateCredentials as any , async (req:authReq,res,n
             }
         })
         if(!user)
-           return next({message:"Username or Password is wrong." , code:404})
-        console.log(req.body)
-        console.log(await bcrypt.compare(req.body.password,user.password))
+           return next({message:"Username or Password is wrong." , code:404})        
         if(await bcrypt.compare(req.body.password,user.password))
-            return res.status(202).json({token:jwt.sign(user.username,process.env.JWT_SECRET as string)})
+            return res.status(202).json({token:jwt.sign({username:user.username},process.env.JWT_SECRET as string)})
         else
             return next({message:"Username or Password is wrong." , code:404})
     } catch(e) {

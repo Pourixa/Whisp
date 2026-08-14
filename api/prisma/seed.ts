@@ -19,10 +19,10 @@ async function main() {
 
   // 2. Create Users
   const alice = await prisma.user.upsert({
-    where: { username: 'alice_wonder' },
+    where: { username: 'alicewonder' },
     update: {},
     create: {
-      username: 'alice_wonder',
+      username: 'alicewonder',
       password: defaultPassword, // <--- Hashed password injected here
       name: 'Alice',
       lastOnline: new Date(),
@@ -33,10 +33,10 @@ async function main() {
   });
 
   const bob = await prisma.user.upsert({
-    where: { username: 'bob_builder' },
+    where: { username: 'bobbuilder' },
     update: {},
     create: {
-      username: 'bob_builder',
+      username: 'bobbuilder',
       password: defaultPassword, // <--- Hashed password injected here
       name: 'Bob',
       lastOnline: new Date(),
@@ -47,10 +47,10 @@ async function main() {
   });
 
   const charlie = await prisma.user.upsert({
-    where: { username: 'charlie_chaplin' },
+    where: { username: 'charliechaplin' },
     update: {},
     create: {
-      username: 'charlie_chaplin',
+      username: 'charliechaplin',
       password: defaultPassword, // <--- Hashed password injected here
       name: 'Charlie',
       lastOnline: new Date(),
@@ -89,17 +89,15 @@ async function main() {
   await prisma.message.createMany({
     data: [
       {
-        // content: "Hey Bob! How is the messaging app going?", 
+        content: "Hey Bob! How is the messaging app going?", 
         username: alice.username,
         groupID: mainChat.id,
-        isRead: true,
         isImage: false,
       },
       {
-        // content: "It's going great! The Prisma schema is done.",
+        content: "It's going great! The Prisma schema is done.",
         username: bob.username,
         groupID: mainChat.id,
-        isRead: false,
         isImage: false,
       },
     ],

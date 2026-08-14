@@ -26,6 +26,7 @@ model message {
 
 model chat {
   id String @id @default(uuid())
+  name String?
   members user[]
   messages message[]
 }
