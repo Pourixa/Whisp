@@ -10,6 +10,7 @@ import type { ChatT, User } from "#lib/types";
 import { EmptyChatList } from "#components/chat-list/emptychatList";
 import { useNavigate } from "react-router";
 import { ChatAvatar } from "#components/avatar";
+import { PlaceHolder } from "#components/chat-list/placeholder";
 
   
 
@@ -41,7 +42,7 @@ function Chats({openedChat,setOpenedChat , selected,setSelected,filter,setFilter
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
       <main>
-        {user.chats.length > 0 ? user.chats.map((chat,idx) => {
+        {user.username === "" ? <div className="flex gap-2 flex-col p-4"><PlaceHolder/><PlaceHolder/><PlaceHolder/></div> : user.chats.length > 0 ? user.chats.map((chat,idx) => {
           return <Chat openedChat={openedChat} setOpenedChat={setOpenedChat} chat={chat} key={idx} />
         }): <EmptyChatList/>}
       </main>
