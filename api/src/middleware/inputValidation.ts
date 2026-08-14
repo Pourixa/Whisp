@@ -10,7 +10,6 @@ export const validateCredentials = [
     .isLength({max:32}).withMessage("Username cannot exceed 32 characters."),
 
     body('password').notEmpty().withMessage("Password is required.")
-    .not().matches("^\\d|\\s").withMessage("Password cannot start with a number or space.")
     .isLength({min:8}).withMessage("Password must be at least 8 characters long."),
     (req:Request, res:Response, next:NextFunction) => {
         const errors = validationResult(req);

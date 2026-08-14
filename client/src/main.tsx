@@ -9,6 +9,6 @@ import { Signup } from './signup.tsx'
 import { Login } from './login.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Signup/>
+    <Login/>
   </StrictMode>,
 )

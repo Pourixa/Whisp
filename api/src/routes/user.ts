@@ -52,9 +52,13 @@ userRouter.post("/login" , validateCredentials as any , async (req:authReq,res,n
             }
         })
         if(!user)
-           return next({message:"User not found" , code:404})
+           return next({message:"Username or Password is wrong." , code:404})
+        console.log(req.body)
+        console.log(await bcrypt.compare(req.body.password,user.password))
         if(await bcrypt.compare(req.body.password,user.password))
             return res.status(202).json({token:jwt.sign(user.username,process.env.JWT_SECRET as string)})
+        else
+            return next({message:"Username or Password is wrong." , code:404})
     } catch(e) {
         next(e)
     }
