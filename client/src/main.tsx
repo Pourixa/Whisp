@@ -1,14 +1,35 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { createBrowserRouter , RouterProvider} from "react-router"
 import './index.css'
-import Chats from './chats.tsx'
-import { ChatPage } from './chatPage.tsx'
 import { EditProfile } from './EditProfile.tsx'
 import { ViewProfile } from './viewProfile.tsx'
 import { Signup } from './signup.tsx'
 import { Login } from './login.tsx'
+import { ChatsNPage } from './ChatsNPage';
+
+const route = createBrowserRouter([
+  {
+    path:"/",
+    element:<ChatsNPage/>,
+  } , 
+  {
+    path:"/login",
+    element:<Login/>
+  } , 
+  {
+    path:"/signup",
+    element:<Signup/>
+  } , 
+  {
+    path:"/profile",
+    element:<ViewProfile/>
+  }
+])
+
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Login/>
+    <RouterProvider router={route}/>
   </StrictMode>,
 )

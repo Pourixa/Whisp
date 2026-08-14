@@ -1,49 +1,37 @@
 import { Input } from "#components/ui/input";
 import { Search} from"lucide-react"
-import type { chat } from "#lib/types";
 import { Avatar } from "#components/ui/avatar";
 import { Chat } from "#components/chat-list/chatItem";
-import { useEffect, useState } from "react";
+import React, { type SetStateAction } from "react";
 import { FilterMenu } from "#components/chat-list/filter";
 import { Tabs } from "#components/chat-list/badges";
 import { Logo } from "#components/logo";
-  const chat1:chat = {
-    name:"Our group",
-    members: ["reqz","mmd"],
-    messages: [
-      {
-        username:"mmd",
-        content:'HI',
-        dateCreated:new Date(),
-      },
-            {
-        username:"mmd",
-        content:'byeI',
-        dateCreated:new Date(),
-      }
-    ]
-  }
-  const chats:chat[] = [chat1,chat1,chat1,chat1,chat1,chat1,chat1,chat1]
+import type { ChatT, User } from "#lib/types";
+import { EmptyChatList } from "#components/chat-list/emptychatList";
+import { useNavigate } from "react-router";
+import { ChatAvatar } from "#components/avatar";
 
-function Chats() {
-  const [selected,setSelected] = useState("phone")
-  const [filter,setFilter] = useState("asc")
-  const [loading,setLoading] = useState(true)
-  const [user,setUser] = useState(null)
-  useEffect(() => {
-    async () => {
-      const user = await fetch("/")
-    }
-  })
+  
 
+function Chats({openedChat,setOpenedChat , selected,setSelected,filter,setFilter,user} : 
+  { openedChat:ChatT, setOpenedChat:React.Dispatch<SetStateAction<ChatT>>
+    selected:string,setSelected:React.Dispatch<SetStateAction<string>>,
+  filter:string,setFilter:React.Dispatch<SetStateAction<string>>,
+  user:User
+}) {
+  const nav = useNavigate()
   return (
-    <div className="flex-col">
+    <div className={`flex-col ${openedChat.id === "" ? "flex" : "hidden"} w-full`}>
       <div className="sticky top-0 bg-background z-50">
         <header className="flex justify-between p-4">
           <Logo classname=""/>
           <div className="flex gap-4 items-center">
             <FilterMenu filter={filter} setFilter={setFilter}/>
-            <Avatar/>
+            <div onClick={() => {
+                nav("profile")
+              }}>
+              <ChatAvatar src={user.avatar} name={user.name}/>
+            </div>
           </div>
         </header>
         <div className="flex items-center p-4 gap-2">
@@ -53,9 +41,9 @@ function Chats() {
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
       <main>
-        {chats.map((chat,idx) => {
-          return <Chat chat={chat} key={idx} />
-        })}
+        {user.chats.length > 0 ? user.chats.map((chat,idx) => {
+          return <Chat openedChat={openedChat} setOpenedChat={setOpenedChat} chat={chat} key={idx} />
+        }): <EmptyChatList/>}
       </main>
     </div>
   );

@@ -4,7 +4,7 @@ import {Filter} from"lucide-react"
 function FilterMenu ({filter,setFilter} : {filter:String,setFilter:React.Dispatch<React.SetStateAction<string>>}) 
 {
     return <DropdownMenu>
-            <DropdownMenuTrigger render={<Filter/>}/>
+            <DropdownMenuTrigger nativeButton={false} render={<Filter/>}/>
             <DropdownMenuContent>
             <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
               <DropdownMenuRadioItem value="online">

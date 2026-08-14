@@ -5,12 +5,14 @@ import { useState } from "react";
 import type { MouseEvent } from "react";
 import { Notif } from "#components/Alert";
 import { makeOptions, makeurl } from "#lib/fetch";
+import { Navigate, useNavigate } from "react-router";
 
 export function Signup() {
     const [user,setUser] = useState("")
     const [pass,setPass] = useState("")
     const [error,setError] = useState({message:"",type:""})
     const [loading,setLoading] = useState(false)
+    const nav = useNavigate()
 
     async function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
         setLoading(true)
@@ -21,12 +23,18 @@ export function Signup() {
         if(res.ok)
         {
             setError({message:"Sign up Successful. \n Redirecting...",type:"Success"})
+            setTimeout(() => {
+                nav("/")
+            },2000)
             localStorage.setItem("token" ,(await res.json()).token)
         } else {
             setError({message:(await res.json()).error ,type:"Danger"})
             setLoading(false)
         }
     }
+    const token  = localStorage.getItem("token")
+    if(token)
+        return <Navigate to={"/"}/>
     return <div className="flex flex-col relative p-4 items-center justify-center h-dvh">
         <Notif data={error}/>
         <div className="grid gap-4">

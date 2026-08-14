@@ -1,152 +1,39 @@
-import { ChatMessage } from "#components/chat-page/message";
-import { Avatar } from "#components/ui/avatar";
-import type { message, user } from "#lib/types";
+import { chat, User, type ChatT, type message } from "#lib/types";
 import { Button } from "./components/ui/button";
 import { ChatInput } from './components/chat-page/input';
 import { ArrowLeft } from "lucide-react";
+import type React from "react";
+import type { SetStateAction } from "react";
+import { ChatAvatar } from "#components/avatar";
+import { ChatMessage } from "#components/chat-page/message";
 
 
-const user1:user = {
-    name:"makjsdlkjfklsdjflkjsdkfjklsjfklsdjfklsdjfkldsmad",
-    username:"MoxSad",
-    messages: [
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-    ],
-    isOnline:true,
-    lastOnline:new Date(),
-    about:"Yo",
-    avatar:"",
-    isFriend:false,
-}
 
-const user2:user = {
-    name:"mamafkldsjkfjdslkfjlsdkjflksdjfklsdjlfkjdd",
-    username:"moxsad",
-    messages: [
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-    ],
-    isOnline:true,
-    lastOnline:new Date(),
-    about:"Yo",
-    avatar:"",
-    isFriend:true,
-} 
-
-const messages:message[] = [
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },  
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },{
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },  
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },{
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },  
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },{
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },  
-           {
-        content: "Hey Bob! How is the messaging app going?", 
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-      {
-        content: "It's going great! The Prisma schema is done.",
-        username: "moxsad",
-        dateCreated:new Date()
-      },
-]
-export function ChatPage() {
-    return <div className="h-svh flex flex-col justify-between">
+export function ChatPage({username,openedChat,setOpenedChat}:{username:string,openedChat:ChatT,setOpenedChat:React.Dispatch<SetStateAction<ChatT>>}) {
+    return <div className={`h-svh w-full flex-col justify-between ${openedChat.id === "" ? "hidden" : "flex"}`}>
         <header className="flex justify-between gap-4 p-2 items-center">
 
-            <div className="flex items-center gap-4">
-              <ArrowLeft/>
-              <Avatar/>
-              </div>
-            <div className="grid">
-                <span className="line-clamp-1 text-ellipsis">{user1.name}</span>
-                <span className="text-muted-foreground">{user1.isOnline ? "Online" : "Last seen " + user1.lastOnline.toLocaleTimeString("en-GB").slice(0,5)}</span>
+            <div className="flex gap-3 items-center">
+                <div className="flex items-center gap-4">
+                  <ArrowLeft onClick={() => setOpenedChat(chat)}/>
+                  {openedChat.members.length > 1 ? <ChatAvatar src="" name={openedChat.name}/> : <ChatAvatar src={openedChat.members[0].avatar} name={openedChat.members[0].name}/>}
+                  </div>
+                <div className="grid">
+                    <span className="line-clamp-1 text-ellipsis">{openedChat.members.length > 1 ? openedChat.name : openedChat.members[0].name}</span>
+                    <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + openedChat.members[0].lastOnline.toLocaleTimeString("en-GB").slice(0,5)}</span>
+                </div>
             </div>
-            {user1.isFriend ? <Button variant={"destructive"}>Remove Friend</Button> : <Button variant={"default"}>Add Friend</Button>}
+            {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave the group</Button> 
+            : openedChat.members[0].sentRequests[0]?.status === "ACCEPTED" || 
+            openedChat.members[0].receivedRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
+            openedChat.members[0].sentRequests[0]?.status === "PENDING" || 
+            openedChat.members[0].receivedRequests[0]?.status === "PENDING" ? <Button variant={"default"}>PENDING</Button> : 
+            <Button variant={"default"}>Add Friend</Button>}
         </header>
-        <main className="grow overflow-y-scroll mb-1 ml-1 mr-1">
-            {messages.map((mes,idx) => {
-                return <ChatMessage message={mes} key={idx}/>
-            })}
+        <main className="grow overflow-y-auto mb-1 ml-1 mr-1 flex flex-col p-1">
+            {openedChat.messages.map((message,idx) => {
+              return <ChatMessage message={message} username={username} key={idx}/>
+                        })}
         </main>
         <footer>
             <ChatInput/>    

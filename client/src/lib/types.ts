@@ -4,20 +4,56 @@ export type message = {
   dateCreated:Date,
 }
 
-export type chat = {
-  name:String,
-  members: String[],
-  messages: message[]
+export type ChatT = {
+  id:string
+  name:string,
+  members: any[],
+  messages: any[]
+}
+
+export const chat:ChatT =  {
+  id:"",
+  name:" ",
+  members: [
+    {
+      avatar:"",
+      lastOnline:new Date(),  
+      name:"",
+      sentRequests:[],
+      receivedRequests:[]
+    }
+  ],
+  messages: [
+        {
+      name:""
+    }
+  ]
+
 }
 
 
-export type user = {
-  name:String,
-  username:String,
+export const User = {
+  name: "",
+  username:"",
+  lastOnline:new Date(),
+  isOnline:true,
+  avatar:"",
+  about:"",
+  messages:[],
+  chats:[],
+  sentRequests:[],
+  receivedRequests:[]
+}
+
+export type User = {
+  name: "",
+  username:"",
   lastOnline:Date,
-  isOnline:boolean,
-  avatar:String,
-  about:String,
-  messages:message[]
-  isFriend:boolean
+  isOnline:true,
+  avatar:"",
+  about:"",
+  messages:[],
+  chats:[],
+  sentRequests:[],
+  receivedRequests:[]
 }
