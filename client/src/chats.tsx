@@ -1,25 +1,28 @@
 import { Input } from "#components/ui/input";
 import { Search} from"lucide-react"
 import { Chat } from "#components/chat-list/chatItem";
-import React, { useState, type SetStateAction } from "react";
+import React, { useEffect, useState, type SetStateAction } from "react";
 import { Tabs } from "#components/chat-list/badges";
 import { Logo } from "#components/logo";
-import type { User } from "#lib/types";
+import { User } from "#lib/types";
 import { EmptyChatList } from "#components/chat-list/emptychatList";
 import { useNavigate } from "react-router";
 import { ChatAvatar } from "#components/avatar";
 import type { Socket } from "socket.io-client";
+import { makeAuthReq, makeurl } from "#lib/fetch";
+import { UserSearch } from "#components/chat-list/user";
 
   
 
-function Chats({socket,openedChatID,setOpenedChatID , selected,setSelected,user} : 
-  { socket:Socket,
+function Chats({openedChatID,setOpenedChatID , selected,setSelected,user} : 
+  {
     openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,
     selected:string,setSelected:React.Dispatch<SetStateAction<string>>,
     user:User
 }) {
   const nav = useNavigate()
   const [result,setResult] = useState([])
+  const [searchQuery,setSearchQuery] = useState<String>()
   const selectedChats = (() => {
     const all = user.chats
     if(selected==="all")
@@ -33,6 +36,10 @@ function Chats({socket,openedChatID,setOpenedChatID , selected,setSelected,user}
     else (selected === "search")
     return result
   })()
+  useEffect(() => {
+      (async () => {const stream = await makeAuthReq("/user/search?q="+searchQuery,localStorage.token)
+      setResult(await stream.json())})()
+  },[searchQuery])
   return (
     <div className={`flex-col ${!openedChatID ? "flex" : "hidden"} w-full`}>
       <div className="sticky top-0 bg-background z-50">
@@ -48,15 +55,19 @@ function Chats({socket,openedChatID,setOpenedChatID , selected,setSelected,user}
         </header>
         <div className="flex items-center p-4 gap-2">
           <Search/>
-          <Input id="search" onFocus={() => setSelected("search")} type="text" placeholder="Search"/>
+          <Input onChange={e => setSearchQuery(e.target.value)} id="search" onFocus={() => setSelected("search")} type="text" placeholder="Search"/>
         </div>
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
-      <main>
+      {selected != "search" ? <main className="flex flex-col gap-0.5 p-0.5">
         {selectedChats?.length > 0 ? user.chats.map((chat,idx) => {
-          return <Chat socket={socket} openedChatID={openedChatID} setOpenedChatID={setOpenedChatID} chat={chat} key={idx} />
-        }): <EmptyChatList/>}
-      </main>
+          return <Chat  openedChatID={openedChatID} setOpenedChatID={setOpenedChatID} chat={chat} key={idx} />
+        }): <EmptyChatList text="No chats yet"/>}
+      </main> : <main className="@container flex flex-col gap-0.5 p-0.5">
+        {result?.length > 0 ? result.map((res,idx) => {
+          return <UserSearch user={res} key={idx} />
+        }) : <EmptyChatList text="Search for some whisperers"/>}
+      </main>}
     </div>
   );
 }

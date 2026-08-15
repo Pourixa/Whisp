@@ -55,6 +55,37 @@ include: {
 }
 })
 
+userRouter.get("/search",authenticateUser,async (req:authReq,res) => {
+    const q = req.query.q as string
+    res.json(
+        await db.user.findMany(
+            {
+                where:
+                {
+                    username:{
+                        not:req.user.username,
+                        contains:q
+                    },
+                },
+                include:
+                {
+                    receivedRequests:{
+                        where:{
+                            senderUsername:req.user.username
+                        }
+                    },
+                    sentRequests:{
+                        where:{
+                            receiverUsername:req.user.username
+                        }
+                    }
+                },
+                take:10
+            }
+        )
+    )
+})
+
 userRouter.post("/signup",validateCredentials as any , async (req,res,next) => {
     try {
     const salt = await bcrypt.genSalt()

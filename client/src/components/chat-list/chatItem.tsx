@@ -1,12 +1,9 @@
-import type { chat, ChatT } from "#lib/types";
-import { useEffect, type SetStateAction } from "react";
-import { Avatar } from "../ui/avatar";
+import {type SetStateAction } from "react";
 import { Item, ItemDescription, ItemMedia, ItemTitle } from "../ui/item";
 import { ChatAvatar } from "#components/avatar";
-import type { Socket } from "socket.io-client";
 
-function Chat({ socket, chat ,openedChatID , setOpenedChatID }: 
-    { socket:Socket, chat: any ,openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>> }) {
+function Chat({chat ,openedChatID , setOpenedChatID }: 
+    {chat: any ,openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>> }) {
     const lastMessage = chat.messages[0];
 
     return (
