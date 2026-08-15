@@ -11,18 +11,21 @@ import { EmptyChatList } from "#components/chat-list/emptychatList";
 import { useNavigate } from "react-router";
 import { ChatAvatar } from "#components/avatar";
 import { PlaceHolder } from "#components/chat-list/placeholder";
+import { socket } from './lib/socket';
+import type { Socket } from "socket.io-client";
 
   
 
-function Chats({openedChat,setOpenedChat , selected,setSelected,filter,setFilter,user} : 
-  { openedChat:ChatT, setOpenedChat:React.Dispatch<SetStateAction<ChatT>>
+function Chats({socket,openedChatID,setOpenedChatID , selected,setSelected,filter,setFilter,user} : 
+  { socket:Socket,
+    openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,
     selected:string,setSelected:React.Dispatch<SetStateAction<string>>,
   filter:string,setFilter:React.Dispatch<SetStateAction<string>>,
   user:User
 }) {
   const nav = useNavigate()
   return (
-    <div className={`flex-col ${openedChat.id === "" ? "flex" : "hidden"} w-full`}>
+    <div className={`flex-col ${!openedChatID ? "flex" : "hidden"} w-full`}>
       <div className="sticky top-0 bg-background z-50">
         <header className="flex justify-between p-4">
           <Logo classname=""/>
@@ -42,8 +45,8 @@ function Chats({openedChat,setOpenedChat , selected,setSelected,filter,setFilter
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
       <main>
-        {user.username === "" ? <div className="flex gap-2 flex-col p-4"><PlaceHolder/><PlaceHolder/><PlaceHolder/></div> : user.chats.length > 0 ? user.chats.map((chat,idx) => {
-          return <Chat openedChat={openedChat} setOpenedChat={setOpenedChat} chat={chat} key={idx} />
+        {user.chats.length > 0 ? user.chats.map((chat,idx) => {
+          return <Chat socket={socket} openedChatID={openedChatID} setOpenedChatID={setOpenedChatID} chat={chat} key={idx} />
         }): <EmptyChatList/>}
       </main>
     </div>

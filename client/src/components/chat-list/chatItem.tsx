@@ -1,17 +1,19 @@
 import type { chat, ChatT } from "#lib/types";
-import type { SetStateAction } from "react";
+import { useEffect, type SetStateAction } from "react";
 import { Avatar } from "../ui/avatar";
 import { Item, ItemDescription, ItemMedia, ItemTitle } from "../ui/item";
 import { ChatAvatar } from "#components/avatar";
+import type { Socket } from "socket.io-client";
 
-function Chat({ chat ,openedChat , setOpenedChat }: { chat: ChatT ,openedChat:ChatT, setOpenedChat:React.Dispatch<SetStateAction<ChatT>> }) {
+function Chat({ socket, chat ,openedChatID , setOpenedChatID }: 
+    { socket:Socket, chat: any ,openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>> }) {
     const lastMessage = chat.messages[0];
+
     return (
-        <Item onClick={() => setOpenedChat(chat)} className="grid grid-cols-[auto_1fr] grid-rows-2 gap-x-3.5 gap-y-0.5 items-center px-4 py-3.5 active:bg-ring rounded-none">
+        <Item onClick={() => setOpenedChatID(chat.id)} className="grid grid-cols-[auto_1fr] grid-rows-2 gap-x-3.5 gap-y-0.5 items-center px-4 py-3.5 active:bg-ring rounded-none">
             <ItemMedia variant="icon" className="row-span-2 col-start-1 flex items-center justify-center h-full">
                 {chat.members.length > 1 ? <ChatAvatar src="" name={chat.name}/> : <ChatAvatar src={chat.members[0].avatar} name={chat.members[0].name}/>}
             </ItemMedia>
-
             <ItemTitle className="row-start-1 col-start-2 flex items-baseline justify-between w-full">
                 <h4 className="font-semibold text-base line-clamp-1 text-foreground">
                     {chat.members.length > 1 ? chat.name : chat.members[0].name}

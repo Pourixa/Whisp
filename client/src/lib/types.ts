@@ -1,8 +1,12 @@
-export type message = {
-  username: String,
-  content: String,
-  dateCreated:Date,
-}
+export type Message = {
+  id: string;
+  content: string | null;
+  isImage: boolean | null;
+  imageSrc: string | null;
+  username: string;
+  dateCreated: Date;
+  groupID: string;
+};
 
 export type ChatT = {
   id:string
