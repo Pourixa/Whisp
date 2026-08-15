@@ -11,7 +11,6 @@ export function ChatsNPage() {
     const token = localStorage.getItem("token") as string;
 
     const [selected, setSelected] = useState("all");
-    const [filter, setFilter] = useState("asc");
     const [user, setUser] = useState<any | null>(null);
     const [openedChatID, setOpenedChatID] = useState<string | null>(null);
     if (!token) {
@@ -144,8 +143,6 @@ export function ChatsNPage() {
                 setOpenedChatID={setOpenedChatID}
                 selected={selected}
                 setSelected={setSelected}
-                filter={filter}
-                setFilter={setFilter}
                 user={user}
             />
 

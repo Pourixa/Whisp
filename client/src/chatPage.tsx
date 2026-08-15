@@ -1,4 +1,3 @@
-import { chat, type ChatT, } from "#lib/types";
 import { Button } from "./components/ui/button";
 import { ChatInput } from './components/chat-page/input';
 import { ArrowLeft } from "lucide-react";
@@ -7,6 +6,7 @@ import { useEffect, useRef, type SetStateAction } from "react";
 import { ChatAvatar } from "#components/avatar";
 import { ChatMessage } from "#components/chat-page/message";
 import type { Socket } from "socket.io-client";
+import { chat } from "#lib/types";
 
 
 export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:Socket,user:any,openedChatID:string | null,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>}) {
@@ -21,7 +21,7 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                 <div className="flex gap-3 items-center">
                     <div className="flex items-center gap-4">
                       <ArrowLeft onClick={() => setOpenedChatID(null)}/>
-                      {openedChat.members.length > 1 ? <ChatAvatar src="" name={openedChat.name}/> : <ChatAvatar src={openedChat.members[0].avatar} name={openedChat.members[0].name}/>}
+                      {openedChat.members.length > 1 ? <ChatAvatar isOnline={false} src="" name={openedChat.name}/> : <ChatAvatar isOnline={openedChat.members[0].isOnline} src={openedChat.members[0].avatar} name={openedChat.members[0].name}/>}
                       </div>
                     <div className="grid">
                         <span className="line-clamp-1 text-ellipsis">{openedChat.members.length > 1 ? openedChat.name : openedChat.members[0].name}</span>

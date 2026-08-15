@@ -12,7 +12,7 @@ function Chat({ socket, chat ,openedChatID , setOpenedChatID }:
     return (
         <Item onClick={() => setOpenedChatID(chat.id)} className="grid grid-cols-[auto_1fr] grid-rows-2 gap-x-3.5 gap-y-0.5 items-center px-4 py-3.5 active:bg-ring rounded-none">
             <ItemMedia variant="icon" className="row-span-2 col-start-1 flex items-center justify-center h-full">
-                {chat.members.length > 1 ? <ChatAvatar src="" name={chat.name}/> : <ChatAvatar src={chat.members[0].avatar} name={chat.members[0].name}/>}
+                {chat.members.length > 1 ? <ChatAvatar isOnline={false} src="" name={chat.name}/> : <ChatAvatar isOnline={chat.members[0].isOnline} src={chat.members[0].avatar} name={chat.members[0].name}/>}
             </ItemMedia>
             <ItemTitle className="row-start-1 col-start-2 flex items-baseline justify-between w-full">
                 <h4 className="font-semibold text-base line-clamp-1 text-foreground">
