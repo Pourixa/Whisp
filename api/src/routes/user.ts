@@ -18,7 +18,7 @@ include: {
           include: {
             messages: {
               orderBy: {
-                dateCreated: 'asc' 
+                dateCreated: 'desc' 
               }
             },
             members:{
