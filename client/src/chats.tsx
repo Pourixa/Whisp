@@ -6,12 +6,10 @@ import React, { type SetStateAction } from "react";
 import { FilterMenu } from "#components/chat-list/filter";
 import { Tabs } from "#components/chat-list/badges";
 import { Logo } from "#components/logo";
-import type { ChatT, User } from "#lib/types";
+import type { User } from "#lib/types";
 import { EmptyChatList } from "#components/chat-list/emptychatList";
 import { useNavigate } from "react-router";
 import { ChatAvatar } from "#components/avatar";
-import { PlaceHolder } from "#components/chat-list/placeholder";
-import { socket } from './lib/socket';
 import type { Socket } from "socket.io-client";
 
   

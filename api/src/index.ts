@@ -28,6 +28,45 @@ io.use(authenticateUserOnSocket);
 
 io.on("connection", async (socket) => {
   console.log(socket.data.user.username + " Connected")
+    const username = socket.data.user.username;
+
+    const user = await db.user.findUnique({
+        where: { username },
+        include: {
+            chats: true
+        }
+    });
+
+    if (!user) {
+        socket.disconnect();
+        return;
+    }
+    const rooms = user.chats.map(chat => `chat:${chat.id}`);
+
+    for (const room of rooms) {
+        socket.join(room);
+
+        socket.to(room).emit("user-online", {
+            username,
+            chatid: room.replace("chat:", "")
+        });
+    }
+
+    socket.on("disconnect", async () => {
+        console.log(username, "disconnected");
+
+        await db.user.update({
+            where: { username },
+            data: { isOnline: false ,lastOnline:new Date()},
+        });
+
+        for (const room of rooms) {
+            socket.to(room).emit("user-offline", {
+                username,
+                chatid: room.replace("chat:", "")
+            });
+        }
+    });
   try {
   await db.user.update({
     where:{
@@ -36,12 +75,14 @@ io.on("connection", async (socket) => {
     data: {
       isOnline:true
     }
-  }) } catch (e){
+  }) 
+} catch (e){
     socket.emit("err" , {
       message:"Something went wrong"
     })
   }
   ChatEvents(socket,io)
+  
 });
 
 

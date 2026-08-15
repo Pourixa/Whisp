@@ -25,7 +25,7 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                       </div>
                     <div className="grid">
                         <span className="line-clamp-1 text-ellipsis">{openedChat.members.length > 1 ? openedChat.name : openedChat.members[0].name}</span>
-                        <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + openedChat.members[0].lastOnline.toLocaleTimeString("en-GB").slice(0,5)}</span>
+                        <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + new Date(openedChat.members[0].lastOnline).toLocaleTimeString("en-GB").slice(0,5)}</span>
                     </div>
                 </div>
                 {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave the group</Button>

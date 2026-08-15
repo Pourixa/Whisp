@@ -28,6 +28,7 @@ export function ChatsNPage() {
             ).json();
 
             setUser(res);
+            console.log(res)
             socket.connect();
             for(const chat of res.chats)
                 socket.emit("chat:join",{chatid:chat.id})
@@ -62,10 +63,68 @@ export function ChatsNPage() {
                 };
             });
         }
-        socket.on("chat:message", onMessage);
 
+        function onUserOnline(data:any) {
+            console.log(data.username,"is online")
+            setUser((prev: any) => {
+                if (!prev) return prev;
+
+                return {
+                    ...prev,
+
+                    chats: prev.chats.map((chat: any) => {
+                        if (chat.id !== data.chatid) {
+                            return chat;
+                        }
+
+                        return {
+                            ...chat,
+
+                            members: chat.members.map((member: any) =>
+                                member.username === data.username
+                                    ? { ...member, isOnline: true }
+                                    : member
+                            )
+                        };
+                    })
+                };
+            });
+        }
+
+        function onUserOffline(data:any) {
+            console.log(data.username,"is offline")
+            setUser((prev: any) => {
+                if (!prev) return prev;
+
+                return {
+                    ...prev,
+
+                    chats: prev.chats.map((chat: any) => {
+                        if (chat.id !== data.chatid) {
+                            return chat;
+                        }
+
+                        return {
+                            ...chat,
+
+                            members: chat.members.map((member: any) =>
+                                member.username === data.username
+                                    ? { ...member, isOnline: false }
+                                    : member
+                            )
+                        };
+                    })
+                };
+            });
+        }
+
+        socket.on("chat:message", onMessage);
+        socket.on("user-online",onUserOnline)
+        socket.on("user-offline",onUserOffline)
         return () => {
             socket.off("chat:message", onMessage);
+            socket.off("user-online",onUserOnline)
+            socket.off("user-offline",onUserOffline)
             socket.disconnect();
         };
 

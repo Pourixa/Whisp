@@ -34,21 +34,6 @@ async function hasAccess(socket: Socket, data: any) {
 }
 
 export function ChatEvents(socket: Socket,io:Server) {
-    socket.on("chat:join", async data => {
-    if (!(await hasAccess(socket, data))) {
-        return socket.emit("error", {
-            message: "You don't have access to this chat."
-        });
-    }
-
-    console.log(
-        socket.data.user.username,
-        "Joined",
-        data.chatid
-    );
-
-    socket.join(`chat:${data.chatid}`);
-    })
     socket.on("chat:message", async data => {
         console.log(socket.data.user.username, "Sent a message")
         const invalid = validateMessage(data)
