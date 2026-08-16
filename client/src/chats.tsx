@@ -4,21 +4,19 @@ import { Chat } from "#components/chat-list/chatItem";
 import React, { useEffect, useState, type SetStateAction } from "react";
 import { Tabs } from "#components/chat-list/badges";
 import { Logo } from "#components/logo";
-import { User } from "#lib/types";
 import { EmptyChatList } from "#components/chat-list/emptychatList";
 import { useNavigate } from "react-router";
 import { ChatAvatar } from "#components/avatar";
-import type { Socket } from "socket.io-client";
-import { makeAuthReq, makeurl } from "#lib/fetch";
+import { makeAuthReq } from "#lib/fetch";
 import { UserSearch } from "#components/chat-list/user";
 
   
 
-function Chats({openedChatID,setOpenedChatID , selected,setSelected,user} : 
+function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser} : 
   {
     openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,
     selected:string,setSelected:React.Dispatch<SetStateAction<string>>,
-    user:User
+    user:any , setUser:React.Dispatch<SetStateAction<any>>
 }) {
   const nav = useNavigate()
   const [result,setResult] = useState([])
@@ -60,12 +58,12 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user} :
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
       {selected != "search" ? <main className="flex flex-col gap-0.5 p-0.5">
-        {selectedChats?.length > 0 ? user.chats.map((chat,idx) => {
+        {selectedChats?.length > 0 ? user.chats.map((chat:any,idx:any) => {
           return <Chat  openedChatID={openedChatID} setOpenedChatID={setOpenedChatID} chat={chat} key={idx} />
         }): <EmptyChatList text="No chats yet"/>}
       </main> : <main className="@container flex flex-col gap-0.5 p-0.5">
         {result?.length > 0 ? result.map((res,idx) => {
-          return <UserSearch user={res} key={idx} />
+          return <UserSearch setOpenedChatID={setOpenedChatID} user={res} key={idx} setUser={setUser} />
         }) : <EmptyChatList text="Search for some whisperers"/>}
       </main>}
     </div>

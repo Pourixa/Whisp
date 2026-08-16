@@ -10,7 +10,7 @@ import db from "./db"
 import { ChatEvents } from "./events/chatEvents";
 const app = express();
 const server = createServer(app);
-const io = new Server(server,{cors:{
+export const io = new Server(server,{cors:{
   origin:process.env.CLIENT
 }});
 

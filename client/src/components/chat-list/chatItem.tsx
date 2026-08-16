@@ -4,8 +4,7 @@ import { ChatAvatar } from "#components/avatar";
 
 function Chat({chat ,openedChatID , setOpenedChatID }: 
     {chat: any ,openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>> }) {
-    const lastMessage = chat.messages[0];
-
+    const lastMessage = chat.messages[0] ;
     return (
         <Item onClick={() => setOpenedChatID(chat.id)} className="grid grid-cols-[auto_1fr] grid-rows-2 gap-x-3.5 gap-y-0.5 items-center px-4 py-3.5 active:bg-ring rounded-none">
             <ItemMedia variant="icon" className="row-span-2 col-start-1 flex items-center justify-center h-full">

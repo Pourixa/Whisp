@@ -4,6 +4,7 @@ import db from "../db"
 import { validateCredentials } from "../middleware/inputValidation";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
+import { io } from "..";
 
 const userRouter = express.Router()
 
@@ -85,6 +86,7 @@ userRouter.get("/search",authenticateUser,async (req:authReq,res) => {
         )
     )
 })
+
 
 userRouter.post("/signup",validateCredentials as any , async (req,res,next) => {
     try {

@@ -1,10 +1,14 @@
 import { ChatAvatar } from "#components/avatar";
 import { Button } from "#components/ui/button";
+import type React from "react";
 import { Item, ItemActions, ItemDescription, ItemMedia, ItemTitle } from "../ui/item";
+import type { SetStateAction } from "react";
+import { socket } from "#lib/socket";
 
-export function UserSearch({user} : {user:any}) {
+export function UserSearch({user} : {setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,user:any,setUser:React.Dispatch<SetStateAction<any>>}) {
+    
     return <Item className="flex flex-col border-accent-accent border-2 @sm:border-none @sm:flex-row @sm:items-center @sm:justify-between">
-            <div className="flex gap-2">
+        <div className="flex gap-2">
             <ItemMedia variant="icon" >
                 <ChatAvatar isOnline={user.isOnline} src={user.avatar} name={user.name}/>
             </ItemMedia>
@@ -20,7 +24,9 @@ export function UserSearch({user} : {user:any}) {
                 </div>
             </div>
             <ItemActions>
-                <Button>
+                <Button onClick={() =>  socket.emit("chat:create",{
+                    username:user.username
+                })}>
                     Chat
                 </Button>
                 {user.sentRequests[0]?.status === "ACCEPTED" ||

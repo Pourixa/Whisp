@@ -25,9 +25,17 @@ export function ChatsNPage() {
             const res = await (
                 await makeAuthReq("/user", token)
             ).json();
+            const sortedUser = {
+                ...res,
+                chats: [...res.chats].sort((a: any, b: any) => {
+                    const dateA = a.messages[0]?.dateCreated ?? 0;
+                    const dateB = b.messages[0]?.dateCreated ?? 0;
 
-            setUser(res);
-            console.log(res)
+                    return new Date(dateB).getTime() - new Date(dateA).getTime();
+                })
+            };        
+            console.log(sortedUser)   
+            setUser(sortedUser);
             socket.connect();
             for(const chat of res.chats)
                 socket.emit("chat:join",{chatid:chat.id})
@@ -117,13 +125,29 @@ export function ChatsNPage() {
             });
         }
 
+        function onChatSelect(data:any) {
+         setOpenedChatID(data.chatid)   
+        }
+
+        function onChatCreate(data:any)
+        {
+        setUser((prev: any) => ({
+            ...prev,
+            chats: [data,...prev.chats]
+        }));
+        }
+
         socket.on("chat:message", onMessage);
         socket.on("user-online",onUserOnline)
         socket.on("user-offline",onUserOffline)
+        socket.on("chat:create",onChatCreate);
+        socket.on("chat:select",onChatSelect)
         return () => {
             socket.off("chat:message", onMessage);
             socket.off("user-online",onUserOnline)
             socket.off("user-offline",onUserOffline)
+            socket.off("chat:create",onChatCreate);
+            socket.off("chat:select",onChatSelect)
             socket.disconnect();
         };
 
@@ -134,16 +158,15 @@ export function ChatsNPage() {
       <Spinner className='size-15' />
     </div>;
     }
-
     return (
         <div className="flex">
             <Chats
-                socket={socket}
                 openedChatID={openedChatID}
                 setOpenedChatID={setOpenedChatID}
                 selected={selected}
                 setSelected={setSelected}
                 user={user}
+                setUser={setUser}
             />
 
             <ChatPage
