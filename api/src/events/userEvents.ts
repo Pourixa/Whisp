@@ -35,6 +35,7 @@ export function UserEvents(socket: Socket,io:Server) {
         }
 })
     socket.on("user:rejectFriend",async (data:any) => {
+        console.log(data)
        const rel = await db.friendShip.findFirst({
     where: {
         OR: [
@@ -61,15 +62,39 @@ export function UserEvents(socket: Socket,io:Server) {
                 socket.emit("user:rejectFriend",{
                 relation:rel,
             })
-                const userSockets = [...io.sockets.sockets.values()]
+        const userSockets = [...io.sockets.sockets.values()]
         .filter(socket => (socket.data.user.username === data.username))
         for(const userSocket of userSockets)
             {   
                 userSocket.emit("user:rejectFriend",{relation : rel})
             }
-} else {
+} else 
     socket.emit("error" , {message:"relationship not found."})
-}
     })
+
+    socket.on("user:acceptFriend",async (data:any) =>{
+        const rel = await db.friendShip.update({
+            where: {
+                senderUsername_receiverUsername:{
+                    senderUsername:data.username,
+                    receiverUsername:socket.data.user.username
+                },
+            },
+            data:{
+                status:"ACCEPTED"
+            }
+        })
+
+    socket.emit("user:acceptFriend",{
+        relation:rel,
+    })
+    const userSockets = [...io.sockets.sockets.values()]
+    .filter(socket => (socket.data.user.username === data.username))
+
+    for(const userSocket of userSockets)
+        {   
+            userSocket.emit("user:acceptFriend",{relation : rel})
+        }
+})
 
 }

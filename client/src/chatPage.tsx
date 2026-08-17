@@ -33,7 +33,7 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                 </div>
                 {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave the group</Button>
                 : receivedRequests[0]?.status === "ACCEPTED" ||
-                sentRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
+                sentRequests[0]?.status === "ACCEPTED" ? <Button onClick={() => socket.emit("user:rejectFriend",{username: (sentRequests.length > 0 ? sentRequests[0].receiverUsername : receivedRequests[0].senderUsername)})} variant={"destructive"}>Remove Friend</Button> :
                 receivedRequests[0]?.status === "PENDING" ||
                 sentRequests[0]?.status === "PENDING" ? <Button disabled={true} variant={"default"}>PENDING</Button> :
                 <Button variant={"default"} onClick={() => socket.emit("user:addFriend",{username:openedChat.members[0].username})}>Add Friend</Button>}

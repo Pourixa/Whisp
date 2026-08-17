@@ -168,6 +168,22 @@ export function ChatsNPage() {
                 return {...prev,sentRequests:newObj}
             })
         }
+        function onAcceptFriend(data:any) {
+            setUser((prev:any) => {
+                let friendShip = prev.sentRequests.findIndex((e:any) => e.id === data.relation.id)
+                if(friendShip === -1)
+                {
+                    friendShip = prev.receivedRequests.findIndex((e:any) => e.id === data.relation.id)
+                    const newObj = [...prev.receivedRequests]
+                    newObj[friendShip].status = "ACCEPTED"
+                    return {...prev,receivedRequests:newObj}
+                }
+                const newObj = [...prev.sentRequests]
+                newObj[friendShip].status = "ACCEPTED"
+                return {...prev,sentRequests:newObj}
+            })
+        }
+        socket.on("user:acceptFriend",onAcceptFriend)
         socket.on("user:rejectFriend",onRejectFriend)
         socket.on("user:addFriend",onAddFriend)
         socket.on("chat:message", onMessage);
