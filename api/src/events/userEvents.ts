@@ -1,7 +1,8 @@
 import { Socket,Server } from "socket.io";
 import db from "../db"
 
-export function ChatEvents(socket: Socket,io:Server) {
+export function UserEvents(socket: Socket,io:Server) {
+    console.log(socket.data.user.username , "added friend")
     socket.on("user:addFriend",async (data:any) => {
     const friendShip = await db.friendShip.create({
         data: {
@@ -10,24 +11,16 @@ export function ChatEvents(socket: Socket,io:Server) {
         },
         })
     socket.emit("user:addFriend",{
-        sentRequests:friendShip
+        relation:friendShip,
+        isSender:true
     })
 
     const userSockets = [...io.sockets.sockets.values()]
     .filter(socket => (socket.data.user.username === data.username))
 
-    const otherUserFriendships = await db.user.findUnique({
-        where:{
-            username:data.username
-        },
-        select:{
-            receivedRequests:true
-        }
-    })
-
     for(const userSocket of userSockets)
         {   
-            userSocket.emit("user:addFriend",otherUserFriendships)
+            userSocket.emit("user:addFriend",{relation : friendShip , isSender:false})
         }
 })
 

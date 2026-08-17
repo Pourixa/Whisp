@@ -8,6 +8,7 @@ import cors from "cors";
 import { authenticateUserOnSocket } from "./middleware/auth";
 import db from "./db"
 import { ChatEvents } from "./events/chatEvents";
+import { UserEvents } from "./events/userEvents";
 const app = express();
 const server = createServer(app);
 export const io = new Server(server,{cors:{
@@ -82,7 +83,7 @@ io.on("connection", async (socket) => {
     })
   }
   ChatEvents(socket,io)
-  
+  UserEvents(socket,io)
 });
 
 

@@ -35,8 +35,8 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                 : receivedRequests[0]?.status === "ACCEPTED" ||
                 sentRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
                 receivedRequests[0]?.status === "PENDING" ||
-                sentRequests[0]?.status === "PENDING" ? <Button variant={"default"}>PENDING</Button> :
-                <Button variant={"default"}>Add Friend</Button>}
+                sentRequests[0]?.status === "PENDING" ? <Button disabled={true} variant={"default"}>PENDING</Button> :
+                <Button variant={"default"} onClick={() => socket.emit("user:addFriend",{username:openedChat.members[0].username})}>Add Friend</Button>}
             </header>
             <main className="grow overflow-y-auto mb-1 ml-1 mr-1 flex flex-col p-1">
                 {[...openedChat.messages].reverse().map((message,idx) => {

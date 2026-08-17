@@ -137,21 +137,29 @@ export function ChatsNPage() {
         }));
         }
 
-        // function addFriend(data) {
-        //     setUser(prev => {
-        //         return {
-        //             ...prev,
-                    
-        //         }
-        //     })
-        // }
-
+        function onAddFriend(data:any) {
+            if(data.isSender)
+                return setUser((prev:any) => {
+                    return {
+                        ...prev,
+                        sentRequests:[...prev.sentRequests,data.relation]
+                    }
+                })
+            return setUser((prev:any) => {
+                    return {
+                        ...prev,
+                        receivedRequests:[...prev.receivedRequests,data.relation]
+                    }
+                })
+        }
+        socket.on("user:addFriend",onAddFriend)
         socket.on("chat:message", onMessage);
         socket.on("user-online",onUserOnline)
         socket.on("user-offline",onUserOffline)
         socket.on("chat:create",onChatCreate);
         socket.on("chat:select",onChatSelect)
         return () => {
+            socket.off("user:addFriend",onAddFriend)
             socket.off("chat:message", onMessage);
             socket.off("user-online",onUserOnline)
             socket.off("user-offline",onUserOffline)

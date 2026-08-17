@@ -33,8 +33,8 @@ export function UserSearch({selfUser,user} : {selfUser:any,setOpenedChatID:React
                 {sentRequests[0]?.status === "ACCEPTED" ||
                 receivedRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
                 sentRequests[0]?.status === "PENDING" ||
-                receivedRequests[0]?.status === "PENDING" ? <Button disabled={true} variant={"ghost"}>PENDING</Button> :
-                <Button variant={"default"} onClick={() => socket.emit("user:addFriend")}>Add Friend</Button>}
+                receivedRequests[0]?.status === "PENDING" ? <Button disabled={true} variant="default">PENDING</Button> :
+                <Button variant={"default"} onClick={() => socket.emit("user:addFriend",{username:user.username})}>Add Friend</Button>}
             </ItemActions>
         </Item>
 }

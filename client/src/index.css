@@ -129,6 +129,9 @@
     }
 }
 
+button:disabled {
+  pointer-events: none;
+}
 
 /* * {
   outline: red solid 2px;
