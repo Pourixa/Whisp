@@ -152,6 +152,23 @@ export function ChatsNPage() {
                     }
                 })
         }
+        function onRejectFriend(data:any) {
+            setUser((prev:any) => {
+                let friendShip = prev.sentRequests.findIndex((e:any) => e.id === data.relation.id)
+                if(friendShip === -1)
+                {
+                    friendShip = prev.receivedRequests.findIndex((e:any) => e.id === data.relation.id)
+                    const newObj = [...prev.receivedRequests]
+                    newObj.splice(friendShip,1)
+                    return {...prev,receivedRequests:newObj}
+                }
+                console.log(friendShip)
+                const newObj = [...prev.sentRequests]
+                newObj.splice(friendShip,1)
+                return {...prev,sentRequests:newObj}
+            })
+        }
+        socket.on("user:rejectFriend",onRejectFriend)
         socket.on("user:addFriend",onAddFriend)
         socket.on("chat:message", onMessage);
         socket.on("user-online",onUserOnline)

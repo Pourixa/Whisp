@@ -3,21 +3,20 @@ import { Button } from "#components/ui/button"
 import { Item, ItemActions, ItemDescription, ItemMedia, ItemTitle } from "#components/ui/item"
 import { socket } from "#lib/socket"
 
-export function Friend({selfUser,user,isFriend} : {selfUser:any,user:any,isFriend:boolean}) {
-
+export function Friend({user,isFriend} : {user:any,isFriend:boolean}) {
     return <Item className="flex flex-col border-accent-accent border-2 @sm:border-none @sm:flex-row @sm:items-center @sm:justify-between">
         <div className="flex gap-2">
             <ItemMedia variant="icon" >
                 <ChatAvatar isOnline={user.isOnline} src={user.avatar} name={user.name}/>
             </ItemMedia>
                 <div className="flex flex-col shrink min-w-0">
-                    {isFriend && <ItemTitle >
+                     <ItemTitle >
                         <h4 className="truncate" >
                             @{user.username}
                         </h4>
-                    </ItemTitle>}
+                    </ItemTitle>
                     <ItemDescription className="truncate">
-                        {user.name}
+                         {user.name}
                     </ItemDescription>
                 </div>
             </div>
@@ -27,8 +26,8 @@ export function Friend({selfUser,user,isFriend} : {selfUser:any,user:any,isFrien
                 })}>
                     Chat
                 </Button>}
-                { isFriend ? <Button variant={"destructive"}>Remove Friend</Button> :
-                user<div><Button disabled={true} variant="default">ACCEPT</Button> <Button disabled={true} variant="default">REJECT</Button></div> 
+                {isFriend ? <Button onClick={() => socket.emit("user:rejectFriend",{username:user.username})}  variant={"destructive"}>Remove Friend</Button> :
+                <div><Button onClick={() => socket.emit("user:acceptFriend",{username:user.username})}  className={"bg-green-600"}  variant="default">ACCEPT</Button> <Button onClick={() => socket.emit("user:rejectFriend",{username:user.username})} variant="destructive">REJECT</Button></div> 
             }
             </ItemActions>
         </Item>

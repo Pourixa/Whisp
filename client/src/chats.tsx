@@ -34,9 +34,9 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
       return all.filter((chat:any) => chat.members > 1)
     else if (selected === "friends")
     {
-      pending.concat( user.receivedRequests.filter((req:any) => req.status === "PENDING"))
-      recivedfriends.concat( user.receivedRequests.filter((req:any) => req.status === "PENDING"))
-      sentfriends.concat( user.sentRequests.filter((req:any) => req.status === "ACCEPTED"))
+      pending.push(...user.receivedRequests.filter((req:any) => req.status === "PENDING"))
+      recivedfriends.push(...user.receivedRequests.filter((req:any) => req.status === "ACCEPTED"))
+      sentfriends.push(...user.sentRequests.filter((req:any) => req.status === "ACCEPTED"))
     }
     else (selected === "search")
     return result
@@ -66,14 +66,16 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
         <Tabs selected={selected} setSelected={setSelected}/>
       {selected === "friends" ? <main className="flex flex-col gap-0.5 p-0.5">
         {sentfriends.length + recivedfriends.length + pending.length > 0 ?
-        
          <>
-         {pending.map((res:any) => {
-            return <Friend isFriend = {false} selfUser={user}  user={res} key={res.senderUsername+res.receiverUsername} />
+         {pending.length > 0 && pending.map((res:any) => {
+            return <Friend isFriend = {false}  user={res.sender} key={res.senderUsername+res.receiverUsername} />
                    })}
-            <Separator orientation="horizontal"/>
-           {friends.map((res:any) => {
-            return <Friend isFriend={true} selfUser={user}  user={res} key={res.senderUsername+res.receiverUsername} />
+            <Separator orientation="horizontal" className={"mt-2 mb-2"}/>
+           {sentfriends.length > 0 && sentfriends.map((res:any) => {
+            return <Friend isFriend={true}  user={res.receiver} key={res.senderUsername+res.receiverUsername} />
+                   })}
+            {recivedfriends.length > 0 && recivedfriends.map((res:any) => {
+            return <Friend isFriend={true}  user={res.sender} key={res.senderUsername+res.receiverUsername} />
                    })}
          </>
         : <EmptyChatList text="No friends yet"/>}
