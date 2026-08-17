@@ -6,7 +6,6 @@ import { useEffect, useRef, type SetStateAction } from "react";
 import { ChatAvatar } from "#components/avatar";
 import { ChatMessage } from "#components/chat-page/message";
 import type { Socket } from "socket.io-client";
-import { chat } from "#lib/types";
 
 
 export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:Socket,user:any,openedChatID:string | null,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>}) {

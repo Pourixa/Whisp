@@ -64,10 +64,17 @@ export function ChatsNPage() {
                     ]
                 };
                 
-                return {
-                    ...prev,
-                    chats
-                };
+                const sortedUser = {
+                ...prev,
+                chats: [...chats].sort((a: any, b: any) => {
+                    const dateA = a.messages[0]?.dateCreated ?? 0;
+                    const dateB = b.messages[0]?.dateCreated ?? 0;
+
+                    return new Date(dateB).getTime() - new Date(dateA).getTime();
+                })
+            };
+                
+                return sortedUser
             });
         }
 
@@ -99,7 +106,6 @@ export function ChatsNPage() {
         }
 
         function onUserOffline(data:any) {
-            console.log(data.username,"is offline")
             setUser((prev: any) => {
                 if (!prev) return prev;
 
