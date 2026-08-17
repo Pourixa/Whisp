@@ -3,7 +3,6 @@ import { ChatPage } from "./chatPage";
 import Chats from "./chats";
 import { Navigate } from 'react-router';
 import { makeAuthReq } from '#lib/fetch';
-import { chat, User, type Message }from '#lib/types';
 import { socket } from '#lib/socket';
 import { Spinner } from '#components/ui/spinner';
 
@@ -42,7 +41,7 @@ export function ChatsNPage() {
         }
 
         loadUser();
-        function onMessage(message: Message) {
+        function onMessage(message: any) {
             setUser((prev:any) => {
                 if (!prev) return prev;
 

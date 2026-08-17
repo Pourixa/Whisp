@@ -22,8 +22,8 @@ const route = createBrowserRouter([
     element:<Signup/>
   } , 
   {
-    path:"/profile",
-    element:<ViewProfile/>
+    path:"/editProfile",
+    element:<EditProfile/>
   }
 ])
 

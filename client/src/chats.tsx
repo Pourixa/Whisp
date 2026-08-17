@@ -52,7 +52,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
           <Logo classname=""/>
           <div className="flex gap-4 items-center">
             <div onClick={() => {
-                nav("profile")
+                nav("editProfile")
               }}>
               <ChatAvatar isOnline={false} src={user.avatar} name={user.name}/>
             </div>
