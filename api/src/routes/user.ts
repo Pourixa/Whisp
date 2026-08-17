@@ -15,8 +15,24 @@ userRouter.get("/",authenticateUser,async (req:authReq, res,next) => {
         username:req.user.username
     }, 
 include: {
-        sentRequests:true,
-        receivedRequests:true,
+        sentRequests:{
+            include:{
+                receiver:{
+                    omit:{
+                        password:true
+                    }
+                }
+            }
+        },
+        receivedRequests:{
+            include:{
+                sender:{
+                    omit:{
+                        password:true
+                    }
+                }
+            }
+        },
         chats: {
           include: {
             messages: {
@@ -83,6 +99,9 @@ userRouter.get("/search",authenticateUser,async (req:authReq,res) => {
                         }
                     }
                 },
+                omit:{
+                    password:true
+                }
                 take:10
             }
         )

@@ -78,7 +78,11 @@ export function ChatEvents(socket: Socket,io:Server) {
                         ]
                     },
                     include:{
-                        members:true
+                        members:{
+                            omit:{
+                                password:true
+                            }
+                        }
                     }
                 })
                 const soloChat = existingChats.find((chat) => chat.members.length === 2)
@@ -118,6 +122,9 @@ export function ChatEvents(socket: Socket,io:Server) {
                                         senderUsername:socket.data.user.username
                                     }
                                 }
+                            },
+                            omit:{
+                                password:true
                             }
                         },
                         messages:true

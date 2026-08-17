@@ -1,11 +1,9 @@
 import { ChatAvatar } from "#components/avatar";
 import { Button } from "#components/ui/button";
-import type React from "react";
 import { Item, ItemActions, ItemDescription, ItemMedia, ItemTitle } from "../ui/item";
-import type { SetStateAction } from "react";
 import { socket } from "#lib/socket";
 
-export function UserSearch({selfUser,user} : {selfUser:any,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,user:any,setUser:React.Dispatch<SetStateAction<any>>}) {
+export function UserSearch({selfUser,user} : {selfUser:any,user:any}) {
     const sentRequests = selfUser.sentRequests.filter((req:any) => req.receiverUsername === user.username)
     const receivedRequests =  selfUser.receivedRequests.filter((req:any) => req.senderUsername === user.username)
     return <Item className="flex flex-col border-accent-accent border-2 @sm:border-none @sm:flex-row @sm:items-center @sm:justify-between">

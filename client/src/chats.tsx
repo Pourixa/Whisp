@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import { ChatAvatar } from "#components/avatar";
 import { makeAuthReq } from "#lib/fetch";
 import { UserSearch } from "#components/chat-list/user";
+import { Friend } from "#components/chat-list/friend";
+import { Separator } from "#components/ui/separator";
 
   
 
@@ -21,6 +23,9 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
   const nav = useNavigate()
   const [result,setResult] = useState([])
   const [searchQuery,setSearchQuery] = useState<String>()
+  const sentfriends:any = [] ;
+  const recivedfriends:any = [] ;
+  const pending:any =[];
   const selectedChats = (() => {
     const all = user.chats
     if(selected==="all")
@@ -29,7 +34,9 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
       return all.filter((chat:any) => chat.members > 1)
     else if (selected === "friends")
     {
-      return( all.filter((chat:any) => chat.members.length === 1 && (chat.members[0].receivedRequests.length === 1 || chat.members[0].sentRequests.length === 1)))
+      pending.concat( user.receivedRequests.filter((req:any) => req.status === "PENDING"))
+      recivedfriends.concat( user.receivedRequests.filter((req:any) => req.status === "PENDING"))
+      sentfriends.concat( user.sentRequests.filter((req:any) => req.status === "ACCEPTED"))
     }
     else (selected === "search")
     return result
@@ -57,13 +64,26 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
         </div>
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
-      {selected != "search" ? <main className="flex flex-col gap-0.5 p-0.5">
+      {selected === "friends" ? <main className="flex flex-col gap-0.5 p-0.5">
+        {sentfriends.length + recivedfriends.length + pending.length > 0 ?
+        
+         <>
+         {pending.map((res:any) => {
+            return <Friend isFriend = {false} selfUser={user}  user={res} key={res.senderUsername+res.receiverUsername} />
+                   })}
+            <Separator orientation="horizontal"/>
+           {friends.map((res:any) => {
+            return <Friend isFriend={true} selfUser={user}  user={res} key={res.senderUsername+res.receiverUsername} />
+                   })}
+         </>
+        : <EmptyChatList text="No friends yet"/>}
+      </main> : selected != "search" ? <main className="flex flex-col gap-0.5 p-0.5">
         {selectedChats?.length > 0 ? user.chats.map((chat:any,idx:any) => {
           return <Chat  openedChatID={openedChatID} setOpenedChatID={setOpenedChatID} chat={chat} key={idx} />
         }): <EmptyChatList text="No chats yet"/>}
       </main> : <main className="@container flex flex-col gap-0.5 p-0.5">
         {result?.length > 0 ? result.map((res,idx) => {
-          return <UserSearch selfUser={user} setOpenedChatID={setOpenedChatID} user={res} key={idx} setUser={setUser} />
+          return <UserSearch selfUser={user} user={res} key={idx} />
         }) : <EmptyChatList text="Search for some whisperers"/>}
       </main>}
     </div>
