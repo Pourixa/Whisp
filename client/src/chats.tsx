@@ -63,7 +63,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
         }): <EmptyChatList text="No chats yet"/>}
       </main> : <main className="@container flex flex-col gap-0.5 p-0.5">
         {result?.length > 0 ? result.map((res,idx) => {
-          return <UserSearch setOpenedChatID={setOpenedChatID} user={res} key={idx} setUser={setUser} />
+          return <UserSearch selfUser={user} setOpenedChatID={setOpenedChatID} user={res} key={idx} setUser={setUser} />
         }) : <EmptyChatList text="Search for some whisperers"/>}
       </main>}
     </div>

@@ -2,7 +2,7 @@ import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function ChatAvatar({src,name,isOnline}:{src:string,name:string,isOnline:boolean}) {
     return <Avatar>
-        <AvatarImage src={src} />
+        <AvatarImage src={ src==="" ? undefined : src} />
         <AvatarFallback>
             {name[0]}
         </AvatarFallback>

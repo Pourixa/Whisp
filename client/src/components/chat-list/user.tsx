@@ -5,8 +5,9 @@ import { Item, ItemActions, ItemDescription, ItemMedia, ItemTitle } from "../ui/
 import type { SetStateAction } from "react";
 import { socket } from "#lib/socket";
 
-export function UserSearch({user} : {setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,user:any,setUser:React.Dispatch<SetStateAction<any>>}) {
-    
+export function UserSearch({selfUser,user} : {selfUser:any,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,user:any,setUser:React.Dispatch<SetStateAction<any>>}) {
+    const sentRequests = selfUser.sentRequests.filter((req:any) => req.receiverUsername === user.username)
+    const receivedRequests =  selfUser.receivedRequests.filter((req:any) => req.senderUsername === user.username)
     return <Item className="flex flex-col border-accent-accent border-2 @sm:border-none @sm:flex-row @sm:items-center @sm:justify-between">
         <div className="flex gap-2">
             <ItemMedia variant="icon" >
@@ -29,11 +30,11 @@ export function UserSearch({user} : {setOpenedChatID:React.Dispatch<SetStateActi
                 })}>
                     Chat
                 </Button>
-                {user.sentRequests[0]?.status === "ACCEPTED" ||
-                user.receivedRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
-                user.sentRequests[0]?.status === "PENDING" ||
-                user.receivedRequests[0]?.status === "PENDING" ? <Button variant={"default"}>PENDING</Button> :
-                <Button variant={"default"}>Add Friend</Button>}
+                {sentRequests[0]?.status === "ACCEPTED" ||
+                receivedRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
+                sentRequests[0]?.status === "PENDING" ||
+                receivedRequests[0]?.status === "PENDING" ? <Button disabled={true} variant={"ghost"}>PENDING</Button> :
+                <Button variant={"default"} onClick={() => socket.emit("user:addFriend")}>Add Friend</Button>}
             </ItemActions>
         </Item>
 }

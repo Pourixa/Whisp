@@ -126,9 +126,7 @@ export function ChatEvents(socket: Socket,io:Server) {
                 const userSockets = [...io.sockets.sockets.values()]
                 .filter(socket => (socket.data.user.username === data.username))
                 
-                for(const userSocket of userSockets)
-                {   
-                    const newChatForUser = await db.chat.findUnique({where:{id:newChat.id},include:{messages:true,members:
+                const newChatForUser = await db.chat.findUnique({where:{id:newChat.id},include:{messages:true,members:
                         {
                             where:{
                                 username:{
@@ -149,6 +147,9 @@ export function ChatEvents(socket: Socket,io:Server) {
                             }
                         }
                     }})
+
+                for(const userSocket of userSockets)
+                {   
                     userSocket.join(`chat:${newChat.id}`)
                     userSocket.emit("chat:create",newChatForUser)
                 }

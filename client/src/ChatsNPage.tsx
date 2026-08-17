@@ -137,6 +137,15 @@ export function ChatsNPage() {
         }));
         }
 
+        // function addFriend(data) {
+        //     setUser(prev => {
+        //         return {
+        //             ...prev,
+                    
+        //         }
+        //     })
+        // }
+
         socket.on("chat:message", onMessage);
         socket.on("user-online",onUserOnline)
         socket.on("user-offline",onUserOffline)

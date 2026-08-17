@@ -12,6 +12,9 @@ import { chat } from "#lib/types";
 export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:Socket,user:any,openedChatID:string | null,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>}) {
     const openedChat = user.chats.find((chat:any) => chat.id === openedChatID)
     const bottomRef = useRef<HTMLDivElement>(null)
+    const sentRequests = user.sentRequests.filter((req:any) => req.receiverUsername === openedChat?.members[0].username)
+    const receivedRequests =  user.receivedRequests.filter((req:any) => req.senderUsername === openedChat?.members[0].username)
+    const lastseen = new Date(openedChat?.members[0].lastOnline)
     useEffect(() => {
         bottomRef.current?.scrollIntoView({behavior:"smooth"})
     },[openedChat?.messages])
@@ -25,14 +28,14 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                       </div>
                     <div className="grid">
                         <span className="line-clamp-1 text-ellipsis">{openedChat.members.length > 1 ? openedChat.name : openedChat.members[0].name}</span>
-                        <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + new Date(openedChat.members[0].lastOnline).toLocaleTimeString("en-GB").slice(0,5)}</span>
+                        <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + lastseen.toLocaleDateString("en-GB") + " at " +  lastseen.toLocaleTimeString("en-GB").slice(0,5)}</span>
                     </div>
                 </div>
                 {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave the group</Button>
-                : openedChat.members[0].sentRequests[0]?.status === "ACCEPTED" ||
-                openedChat.members[0].receivedRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
-                openedChat.members[0].sentRequests[0]?.status === "PENDING" ||
-                openedChat.members[0].receivedRequests[0]?.status === "PENDING" ? <Button variant={"default"}>PENDING</Button> :
+                : receivedRequests[0]?.status === "ACCEPTED" ||
+                sentRequests[0]?.status === "ACCEPTED" ? <Button variant={"destructive"}>Remove Friend</Button> :
+                receivedRequests[0]?.status === "PENDING" ||
+                sentRequests[0]?.status === "PENDING" ? <Button variant={"default"}>PENDING</Button> :
                 <Button variant={"default"}>Add Friend</Button>}
             </header>
             <main className="grow overflow-y-auto mb-1 ml-1 mr-1 flex flex-col p-1">

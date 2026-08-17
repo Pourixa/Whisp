@@ -15,6 +15,8 @@ userRouter.get("/",authenticateUser,async (req:authReq, res,next) => {
         username:req.user.username
     }, 
 include: {
+        sentRequests:true,
+        receivedRequests:true,
         chats: {
           include: {
             messages: {
