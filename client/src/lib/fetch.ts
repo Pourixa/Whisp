@@ -14,14 +14,14 @@ export function makeOptions(method:string, body:object)
     }
 }
 
-export async function makeAuthReq(path:string,token:string,method = "get",body = null)
+export async function makeAuthReq(path:string,token:string,method = "get",body?:any)
 {
     if (body) 
         {
             return await fetch(makeurl(path),{
             headers:{
                 "Content-Type" : "application/json",
-                "authorization" : token
+                "authorization" : "Bearer " + token
             },
             method:method,
             body:JSON.stringify(body)

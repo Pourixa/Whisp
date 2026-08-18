@@ -1,5 +1,4 @@
 import { ChatAvatar } from '#components/avatar';
-import { Avatar } from '#components/ui/avatar';
 import { Button } from '#components/ui/button';
 import { Input } from '#components/ui/input';
 import { Spinner } from '#components/ui/spinner';
@@ -15,10 +14,12 @@ const MAX_ABOUT_CHARS = 50
 const MAX_NAME_CHARS = 25
 export function EditProfile() {
     const [user,setUser] =useState<null | any>(null)
-    const [AboutChars,setAboutChars] = useState<null | any>(null)
-    const [nameChars,setNameChars] = useState<null | any>(null)
+    const [AboutChars,setAboutChars] = useState<null | string>(null)
+    const [nameChars,setNameChars] = useState<null | string>(null)
+    const [photoSrc,setPhotoSrc] = useState<null | any>(null)
     const nav = useNavigate()
     const token = localStorage.getItem("token") as string;
+    const [buttonText,setButtonText] = useState("Save")
     useEffect(() => {
         async function loadUser() {
             const res = await (
@@ -27,6 +28,7 @@ export function EditProfile() {
             setUser(res);
             setAboutChars(res.about)
             setNameChars(res.name)
+            setPhotoSrc(res.avatar)
             console.log(res)
         }
         loadUser()
@@ -45,28 +47,68 @@ export function EditProfile() {
         <ArrowLeft onClick={() => nav("/")} className='flex justify-center items-center '/>
         <ChatAvatar src={user.avatar} name={user.name} isOnline={false} size={"lg"}/>
         <div className='flex w-full justify-around items-center'>
-            <Button>Upload</Button>
-            {user.avatar != "" && <Button variant={"destructive"}>Remove</Button>}
+                <label htmlFor='avatar' className="group/button inline-flex shrink-0 items-center justify-center rounded-2xl border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:bg-primary/80 h-8 gap-1.5 px-3 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5">UPLOAD</label>
+                <Input type='file' id='avatar' className='hidden' onChange={(e) => {
+                const file = e.target.files?.[0];
+
+                if (!file) return;
+                setPhotoSrc(file)
+                setUser((prev: any) => ({
+                    ...prev,
+                    avatar: URL.createObjectURL(file),
+                }));
+            }} />
+            {user.avatar != "" && <Button variant={"destructive"} onClick={() => {
+                setPhotoSrc("")
+                setUser((prev:any) => ({...prev,avatar:""}))
+            }}>Remove</Button>}
         </div>
         <div className='grid gap-0.5'>
             <p className='pl-4'>Name</p>
             <Input maxLength={MAX_NAME_CHARS} defaultValue={String(user.name)} onChange={(e) => {
                 return setNameChars(e.target.value)
             }}/>
-            <span className='justify-self-end pr-2'>{nameChars.length} / {MAX_NAME_CHARS} </span>
+            <span className='justify-self-end pr-2'>{nameChars?.length ?? 0} / {MAX_NAME_CHARS} </span>
         </div>
         <div className='grid gap-0.5'>
             <p className='pl-4'>Bio</p>
             <Textarea maxLength={MAX_ABOUT_CHARS} defaultValue={String(user.about)} onChange={(e) => {
                 return setAboutChars(e.target.value)
             }}/>
-            <span className='justify-self-end pr-2'>{AboutChars.length} / {MAX_ABOUT_CHARS} </span>
+            <span className='justify-self-end pr-2'>{AboutChars?.length ?? 0} / {MAX_ABOUT_CHARS} </span>
         </div>
         
         <div className='grid gap-0.5'>
             <p className='pl-4'>Username (Read Only)</p>
             <Input className='pointer-events-none text-muted-foreground' readOnly value={String(user.username)}/>
         </div>
-        <Button>Save</Button>
+        <Button onClick={async () => 
+        
+            {     
+            const data = new FormData()
+            data.append("about",AboutChars ?? "")    
+            data.append("name",nameChars ?? "")    
+            data.append("photoSrc",photoSrc)  
+
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/user/update`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
+        console.log(res)
+        if(!res.ok){
+            setButtonText("Update Failed. Retry")
+            return setTimeout(() => {
+                setButtonText("Save")
+            }, 2000);
+        }
+        setButtonText("Success. Redirecting...")
+        return setTimeout(() => {
+            nav("/")
+        }, 2000)
+         }
+        } disabled={buttonText != "Save"}  className={`${buttonText === "Update Failed" ? "bg-destructive" : buttonText==="Success. Redirecting..." ? "bg-green-600" : ""}`}>{buttonText}</Button>
     </div>
 }

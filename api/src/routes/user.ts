@@ -4,6 +4,12 @@ import db from "../db"
 import { validateCredentials } from "../middleware/inputValidation";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
+import multer from "multer";
+import { createClient } from '@supabase/supabase-js'
+import prisma from "../db";
+
+const supabase = createClient(process.env.PROJECT_URL as string, process.env.ACCESS_TOKEN as string)
+const upload = multer({storage: multer.memoryStorage()})
 
 const userRouter = express.Router()
 
@@ -143,6 +149,48 @@ userRouter.post("/login" , validateCredentials as any , async (req:authReq,res,n
         else
             return next({message:"Username or Password is wrong." , code:404})
     } catch(e) {
+        next(e)
+    }
+})
+
+userRouter.post("/update",upload.single("photoSrc"),authenticateUser ,async (req:authReq,res,next) => {
+    try {
+        if(req.file){
+        const { data, error } = await supabase.storage.from('avatars').upload(req.user.username+"-avatar",req.file.buffer,{
+            upsert:true,
+            contentType:req.file.mimetype
+        })
+        if(error)
+            throw error
+        const { data: publicUrl } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(data.path)
+        const avatarUrl = `${publicUrl.publicUrl}?v=${Date.now()}`
+        await db.user.update({
+            where:{
+                username:req.user.username
+            },
+            data:{
+                avatar: avatarUrl,
+                about:req.body.about,
+                name:req.body.name
+            }
+
+        })
+        } else {
+            await db.user.update({
+            where:{
+                username:req.user.username
+            },
+            data:{
+                avatar: "",
+                about:req.body.about,
+                name:req.body.name
+            }
+        })
+        }
+        res.json({message:"Profile updated"})
+    } catch (e) {
         next(e)
     }
 })
