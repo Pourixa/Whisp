@@ -83,8 +83,8 @@ export function EditProfile() {
             <Input className='pointer-events-none text-muted-foreground' readOnly value={String(user.username)}/>
         </div>
         <Button onClick={async () => 
-        
-            {     
+            {
+            setButtonText("Updating...")     
             const data = new FormData()
             data.append("about",AboutChars ?? "")    
             data.append("name",nameChars ?? "")    
@@ -110,5 +110,6 @@ export function EditProfile() {
         }, 2000)
          }
         } disabled={buttonText != "Save"}  className={`${buttonText === "Update Failed" ? "bg-destructive" : buttonText==="Success. Redirecting..." ? "bg-green-600" : ""}`}>{buttonText}</Button>
+        <Button onClick={() => {localStorage.clear() , nav("/login")}} variant={'destructive'}>Logout</Button>
     </div>
 }
