@@ -6,6 +6,7 @@ import { useEffect, useRef, type SetStateAction } from "react";
 import { ChatAvatar } from "#components/avatar";
 import { ChatMessage } from "#components/chat-page/message";
 import type { Socket } from "socket.io-client";
+import { useNavigate } from "react-router";
 
 
 export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:Socket,user:any,openedChatID:string | null,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>}) {
@@ -14,18 +15,19 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
     const sentRequests = user.sentRequests.filter((req:any) => req.receiverUsername === openedChat?.members[0].username)
     const receivedRequests =  user.receivedRequests.filter((req:any) => req.senderUsername === openedChat?.members[0].username)
     const lastseen = new Date(openedChat?.members[0].lastOnline)
+    const nav = useNavigate()
     useEffect(() => {
         bottomRef.current?.scrollIntoView({behavior:"smooth"})
     },[openedChat?.messages])
     return <div className={`h-svh w-full flex-col justify-between ${!openedChatID ? "hidden" : "flex"}`}>
         {openedChat ? <>
-            <header className="flex justify-between gap-4 p-2 items-center">
-                <div className="flex gap-3 items-center">
+            <header className="flex  gap-4 p-2 items-center">
+                <div className="flex gap-3 items-center grow">
                     <div className="flex items-center gap-4">
                       <ArrowLeft onClick={() => setOpenedChatID(null)}/>
                       {openedChat.members.length > 1 ? <ChatAvatar isOnline={false} src="" name={openedChat.name}/> : <ChatAvatar isOnline={openedChat.members[0].isOnline} src={openedChat.members[0].avatar} name={openedChat.members[0].name}/>}
                       </div>
-                    <div className="grid">
+                    <div className="grid active:bg-ring grow p-1 rounded-xl" onClick={openedChat.members.length > 1 ? undefined : () => nav("/viewProfile/"+openedChat.members[0].username)}>
                         <span className="line-clamp-1 text-ellipsis">{openedChat.members.length > 1 ? openedChat.name : openedChat.members[0].name}</span>
                         <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + lastseen.toLocaleDateString("en-GB") + " at " +  lastseen.toLocaleTimeString("en-GB").slice(0,5)}</span>
                     </div>

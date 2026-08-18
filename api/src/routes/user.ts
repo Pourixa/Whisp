@@ -79,6 +79,20 @@ include: {
 }
 })
 
+userRouter.get("/:username",authenticateUser , async (req:authReq,res,next) => {
+    try{const user = await db.user.findUnique({
+        where:{
+            username:req.params.username as string,
+        },
+        omit:{
+            password:true
+        }
+    })
+    res.json(user)} catch(e) {
+        next(e)
+    }
+})
+
 userRouter.get("/search",authenticateUser,async (req:authReq,res) => {
     const q = req.query.q as string
     res.json(

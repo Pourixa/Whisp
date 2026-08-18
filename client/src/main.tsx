@@ -24,6 +24,10 @@ const route = createBrowserRouter([
   {
     path:"/editProfile",
     element:<EditProfile/>
+  },
+  {
+    path:"/viewProfile/:username",
+    element:<ViewProfile/>
   }
 ])
 

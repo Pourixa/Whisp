@@ -197,6 +197,8 @@ export function ChatsNPage() {
         socket.on("chat:create",onChatCreate);
         socket.on("chat:select",onChatSelect)
         return () => {
+            socket.off("user:acceptFriend",onAcceptFriend)
+            socket.off("user:rejectFriend",onRejectFriend)
             socket.off("user:addFriend",onAddFriend)
             socket.off("chat:message", onMessage);
             socket.off("user-online",onUserOnline)
