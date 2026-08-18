@@ -42,7 +42,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
     return result
   })()
   useEffect(() => {
-      (async () => {const stream = await makeAuthReq("/user/search?q="+searchQuery,localStorage.token)
+      (async () => {const stream = await makeAuthReq("/user/search?q="+searchQuery,localStorage.token,"post",{})
       setResult(await stream.json())})()
   },[searchQuery])
   return (
