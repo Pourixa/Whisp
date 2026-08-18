@@ -32,12 +32,12 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                         <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + lastseen.toLocaleDateString("en-GB") + " at " +  lastseen.toLocaleTimeString("en-GB").slice(0,5)}</span>
                     </div>
                 </div>
-                {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave the group</Button>
+                {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave</Button>
                 : receivedRequests[0]?.status === "ACCEPTED" ||
-                sentRequests[0]?.status === "ACCEPTED" ? <Button onClick={() => socket.emit("user:rejectFriend",{username: (sentRequests.length > 0 ? sentRequests[0].receiverUsername : receivedRequests[0].senderUsername)})} variant={"destructive"}>Remove Friend</Button> :
+                sentRequests[0]?.status === "ACCEPTED" ? <Button onClick={() => socket.emit("user:rejectFriend",{username: (sentRequests.length > 0 ? sentRequests[0].receiverUsername : receivedRequests[0].senderUsername)})} variant={"destructive"}>Remove</Button> :
                 receivedRequests[0]?.status === "PENDING" ||
                 sentRequests[0]?.status === "PENDING" ? <Button disabled={true} variant={"default"}>PENDING</Button> :
-                <Button variant={"default"} onClick={() => socket.emit("user:addFriend",{username:openedChat.members[0].username})}>Add Friend</Button>}
+                <Button variant={"default"} onClick={() => socket.emit("user:addFriend",{username:openedChat.members[0].username})}>Add</Button>}
             </header>
             <main className="grow overflow-y-auto mb-1 ml-1 mr-1 flex flex-col p-1">
                 {[...openedChat.messages].reverse().map((message,idx) => {

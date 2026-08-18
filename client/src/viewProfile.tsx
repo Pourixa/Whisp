@@ -1,6 +1,4 @@
 import { ChatAvatar } from '#components/avatar';
-import { Avatar } from '#components/ui/avatar';
-import { Button } from '#components/ui/button';
 import { Input } from '#components/ui/input';
 import { Spinner } from '#components/ui/spinner';
 import { Textarea } from '#components/ui/textarea';
@@ -8,8 +6,6 @@ import { makeAuthReq } from '#lib/fetch';
 import { ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router';
-
-
 
 export function ViewProfile() {
     const [user,setUser] =useState<null | any>(null)

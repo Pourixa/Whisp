@@ -11,6 +11,8 @@ import { makeAuthReq } from "#lib/fetch";
 import { UserSearch } from "#components/chat-list/user";
 import { Friend } from "#components/chat-list/friend";
 import { Separator } from "#components/ui/separator";
+import { BsPeople } from "react-icons/bs";
+import { Button } from "#components/ui/button";
 
   
 
@@ -24,7 +26,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
   const [result,setResult] = useState([])
   const [searchQuery,setSearchQuery] = useState<String>()
   const sentfriends:any = [] ;
-  const recivedfriends:any = [] ;
+  const recivedfriends:any = [] ; 
   const pending:any =[];
   const selectedChats = (() => {
     const all = user.chats
@@ -88,6 +90,9 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
           return <UserSearch selfUser={user} user={res} key={idx} />
         }) : <EmptyChatList text="Search for some whisperers"/>}
       </main>}
+      <Button className={"fixed bottom-4 right-4 "}>
+        <BsPeople/>
+        </Button>
     </div>
   );
 }
