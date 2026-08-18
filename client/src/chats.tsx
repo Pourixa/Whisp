@@ -23,8 +23,8 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
     user:any , setUser:React.Dispatch<SetStateAction<any>>
 }) {
   const nav = useNavigate()
-  const [result,setResult] = useState([])
-  const [searchQuery,setSearchQuery] = useState<String>()
+    const [result,setResult] = useState([])
+    const [searchQuery,setSearchQuery] = useState<String>()
   const sentfriends:any = [] ;
   const recivedfriends:any = [] ; 
   const pending:any =[];
@@ -90,7 +90,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
           return <UserSearch selfUser={user} user={res} key={idx} />
         }) : <EmptyChatList text="Search for some whisperers"/>}
       </main>}
-      <Button className={"fixed bottom-4 right-4  rounded-full p-4"}>
+      <Button onClick={() => nav("/createGroup")} className={"fixed bottom-4 right-4  rounded-full p-4"}>
         <BsPeople/>
         </Button>
     </div>

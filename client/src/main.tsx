@@ -7,6 +7,7 @@ import { ViewProfile } from './viewProfile.tsx'
 import { Signup } from './signup.tsx'
 import { Login } from './login.tsx'
 import { ChatsNPage } from './ChatsNPage';
+import { CreateGroup } from './creatGroup.tsx'
 
 const route = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const route = createBrowserRouter([
   {
     path:"/viewProfile/:username",
     element:<ViewProfile/>
+  },
+  {
+    path:"/createGroup",
+    element:<CreateGroup/>
   }
 ])
 
