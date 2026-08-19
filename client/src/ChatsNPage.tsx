@@ -33,7 +33,6 @@ export function ChatsNPage() {
                     return new Date(dateB).getTime() - new Date(dateA).getTime();
                 })
             };        
-            console.log(sortedUser)   
             setUser(sortedUser);
             socket.connect();
             for(const chat of res.chats)
@@ -78,7 +77,6 @@ export function ChatsNPage() {
         }
 
         function onUserOnline(data:any) {
-            console.log(data.username,"is online")
             setUser((prev: any) => {
                 if (!prev) return prev;
 
@@ -167,7 +165,6 @@ export function ChatsNPage() {
                     newObj.splice(friendShip,1)
                     return {...prev,receivedRequests:newObj}
                 }
-                console.log(friendShip)
                 const newObj = [...prev.sentRequests]
                 newObj.splice(friendShip,1)
                 return {...prev,sentRequests:newObj}

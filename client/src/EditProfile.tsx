@@ -30,7 +30,6 @@ export function EditProfile() {
             setAboutChars(res.about)
             setNameChars(res.name)
             setPhotoSrc(res.avatar)
-            console.log(res)
         }
         loadUser()
     },[])
@@ -99,7 +98,6 @@ export function EditProfile() {
             },
             body: data,
         });
-        console.log(res)
         if(!res.ok){
             setButtonText("Update Failed")
             return setTimeout(() => {

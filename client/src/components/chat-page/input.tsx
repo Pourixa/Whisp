@@ -40,7 +40,6 @@ export function ChatInput({socket,chatid} : {socket:Socket,chatid:string})
             setIsSending(false)
         }
     }
-    console.log(selectedImage)
     return <div>
         <InputGroup className={`grid grid-rows-${selectedImage ? 2 : 1} grid-cols-[auto_1fr_auto] p-1 rounded-none rounded-tl-md rounded-tr-md border-t-0.1 border-t-ring border-l-0.1 border-l-ring border-r-0.1 border-r-ring`}>
         {selectedImage && <Attachment className="col-span-3" orientation={"vertical"}>

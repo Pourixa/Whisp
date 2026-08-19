@@ -19,7 +19,6 @@ export function ViewProfile() {
             ).json();      
 
             setUser(res);
-            console.log(res)
         }
         loadUser()
     },[])

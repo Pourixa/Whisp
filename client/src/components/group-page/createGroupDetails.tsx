@@ -32,7 +32,6 @@ export function CreateGroupDetails() {
             data.name = nameChars    
             data.users = selectedUsers
             const res = await makeAuthReq("/creategroup",token,"post",data)
-        console.log(res)
         if(!res.ok){
             setButtonText("Creation Failed")
             return setTimeout(() => {
