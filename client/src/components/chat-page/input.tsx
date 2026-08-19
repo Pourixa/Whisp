@@ -1,25 +1,54 @@
 import { InputGroup, InputGroupButton, InputGroupTextarea } from "#components/ui/input-group";
 import { Image, Send } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type {Socket} from 'socket.io-client';
+import { makeurl } from "#lib/fetch";
 
 
 export function ChatInput({socket,chatid} : {socket:Socket,chatid:string}) 
 {
     const [message,setMessage] = useState("")
+    const [selectedImage,setSelectedImage] = useState<File | null>(null)
+    const [isSending,setIsSending] = useState(false)
+    const imageInputRef = useRef<HTMLInputElement>(null)
+
+    async function sendMessage() {
+        if ((!message.trim() && !selectedImage) || isSending)
+            return
+
+        setIsSending(true)
+        try {
+            let imageSrc: string | undefined
+            if (selectedImage) {
+                const formData = new FormData()
+                formData.append("image",selectedImage)
+                const response = await fetch(makeurl("/user/message-image"),{
+                    method:"POST",
+                    headers:{authorization:"Bearer " + localStorage.getItem("token")},
+                    body:formData
+                })
+                if (!response.ok)
+                    throw new Error("Image upload failed")
+                imageSrc = (await response.json()).imageSrc
+            }
+
+            socket.emit("chat:message",{content:message, imageSrc, chatid})
+            setMessage("")
+            setSelectedImage(null)
+        } finally {
+            setIsSending(false)
+        }
+    }
+
     return    <InputGroup className="p-1 rounded-none rounded-tl-md rounded-tr-md border-t-0.1 border-t-ring border-l-0.1 border-l-ring border-r-0.1 border-r-ring">
-            <InputGroupButton className="self-baseline-last">
+            <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={(event) => setSelectedImage(event.target.files?.[0] || null)}/>
+            <InputGroupButton onClick={() => imageInputRef.current?.click()} aria-label="Attach image" className="self-baseline-last">
                 <Image/>
             </InputGroupButton>
             <InputGroupTextarea value={message} placeholder="Write something" minLength={1} className="max-h-32 ml-0.5 mr-0.5" onChange={(e) => {
                 setMessage(e.target.value)
             }}/>
-            <InputGroupButton onClick={() =>{ socket.emit("chat:message",{
-                content:message,
-                chatid:chatid
-            })
-            setMessage("")
-        }} className={"self-baseline-last text-background bg-foreground flex justify-center align-middle disabled:pointer-events-none"} disabled={message.length > 0 ? false : true}>
+            <InputGroupButton onClick={sendMessage} className={"self-baseline-last text-background bg-foreground flex justify-center align-middle disabled:pointer-events-none"} disabled={(!message.trim() && !selectedImage) || isSending}>
                 <Send />
             </InputGroupButton>
             </InputGroup>

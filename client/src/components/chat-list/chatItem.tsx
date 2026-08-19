@@ -20,7 +20,7 @@ function Chat({chat ,openedChatID , setOpenedChatID }:
             </ItemTitle>
 
             <ItemDescription className="row-start-2 col-start-2 text-sm font-normal text-muted-foreground line-clamp-1">
-                {lastMessage?.content || "No messages yet"}
+                {lastMessage?.content || (lastMessage?.imageSrc ? "Image" : "No messages yet")}
             </ItemDescription>
         </Item>
     );

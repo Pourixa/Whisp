@@ -7,7 +7,10 @@
         return <Message className="grid" align={message.username === username ? "end" : "start"}>
         <MessageContent>
             <Bubble variant={message.username === username ? "default" : "muted"}>
-            <BubbleContent>{message.content}</BubbleContent>
+            <BubbleContent className="flex flex-col gap-2">
+                {message.imageSrc && <img src={message.imageSrc} alt="" className="max-h-80 max-w-full rounded-md object-contain" />}
+                {message.content && <span>{message.content}</span>}
+            </BubbleContent>
             </Bubble>
         </MessageContent>
         <MessageFooter>
