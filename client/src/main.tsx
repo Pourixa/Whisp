@@ -11,6 +11,7 @@ import { CreateGroupMembers } from './components/group-page/createGroupMembers.t
 import { CreateGroup } from './creatGroup.tsx'
 import { CreateGroupDetails } from '#components/group-page/createGroupDetails'
 import { RouterError } from './routerError'
+import { ThemeProvider } from '#components/themeProvider'
 
 const route = createBrowserRouter([
   {
@@ -47,6 +48,8 @@ element:<CreateGroup/>,
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={route}/>
+    <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+      <RouterProvider router={route}/>
+    </ThemeProvider>
   </StrictMode>,
 )

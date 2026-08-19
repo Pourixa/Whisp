@@ -13,6 +13,8 @@ import { Friend } from "#components/chat-list/friend";
 import { Separator } from "#components/ui/separator";
 import { BsPeople } from "react-icons/bs";
 import { Button } from "#components/ui/button";
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "#components/themeProvider";
 
   
 
@@ -28,6 +30,8 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
   const sentfriends:any = [] ;
   const recivedfriends:any = [] ; 
   const pending:any =[];
+  const theme = localStorage.getItem('vite-ui-theme')
+  const {setTheme} = useTheme()
   const selectedChats = (() => {
     const all = user.chats
     if(selected==="all")
@@ -53,6 +57,13 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
         <header className="flex justify-between p-4">
           <Logo classname=""/>
           <div className="flex gap-4 items-center">
+                {
+                  theme === "dark" ? <Button onClick={() => setTheme("light")}>
+                    <Sun/>
+                  </Button> : <Button onClick={() => setTheme("dark")}>
+                    <Moon/>
+                  </Button>
+                }
             <div onClick={() => {
                 nav("editProfile")
               }}>
