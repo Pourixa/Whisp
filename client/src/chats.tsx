@@ -68,7 +68,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
         <Tabs selected={selected} setSelected={setSelected}/>
             {
         selected === "friends" ? (
-          <main className="flex flex-col gap-0.5 p-0.5">
+          <main className="@container flex flex-col gap-0.5 p-0.5">
             {sentfriends.length + recivedfriends.length + pending.length > 0 ? (
               <>
                 {pending.length > 0 &&

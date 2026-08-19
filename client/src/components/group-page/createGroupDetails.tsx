@@ -9,16 +9,15 @@ import { useOutletContext } from 'react-router';
 const MAX_NAME_CHARS = 25
 export function CreateGroupDetails() {
     const {nav,selectedUsers} = useOutletContext<any>()
-    const [AboutChars,setAboutChars] = useState<string>("")
     const [nameChars,setNameChars] = useState<string>("")
     const token = localStorage.getItem("token") as string;
     const [buttonText,setButtonText] = useState("Create")
-    return <div className='grid  items-center h-dvh p-4'>
-        <div className='flex gap-2'>
+    return <div className='grid  items-center h-dvh p-4 w-full'>
+        <div className='flex gap-2  self-start'>
             <ArrowLeft onClick={() => nav("/creategroup")} className='flex justify-center items-center '/>
             <h4>Select Members</h4>
         </div>
-        <div className='grid gap-0.5'>
+        <div className='grid gap-0.5 justify-self-center'>
             <p className='pl-4'>Name</p>
             <Input maxLength={MAX_NAME_CHARS} value={nameChars} onChange={(e) => {
                 return setNameChars(e.target.value)
@@ -30,7 +29,6 @@ export function CreateGroupDetails() {
             {
             setButtonText("Creating...")     
             const data:any = {}
-            data.about = AboutChars    
             data.name = nameChars    
             data.users = selectedUsers
             const res = await makeAuthReq("/creategroup",token,"post",data)
@@ -46,6 +44,6 @@ export function CreateGroupDetails() {
             nav("/")
         }, 2000)
          }
-        } disabled={buttonText != "Create" || nameChars.length < 3}  className={`${buttonText === "Creation Failed" ? "bg-destructive" : buttonText==="Success. Redirecting..." ? "bg-green-600" : ""}`}>{buttonText}</Button>
+        } disabled={buttonText != "Create" || nameChars.length < 3}  className={`${buttonText === "Creation Failed" ? "bg-destructive" : buttonText==="Success. Redirecting..." ? "bg-green-600" : ""} justify-self-center`}>{buttonText}</Button>
     </div>
 }

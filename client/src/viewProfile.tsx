@@ -32,7 +32,7 @@ export function ViewProfile() {
     </div>;
     }
     return <div className='grid  items-center h-dvh p-4'>
-        <ArrowLeft onClick={() => nav("/")} className='flex justify-center items-center '/>
+        <ArrowLeft onClick={() => nav("/")} className='flex justify-centerv self-start items-center '/>
         <ChatAvatar src={user.avatar} name={user.name} isOnline={false} size={"lg"}/>
         <div className='grid gap-0.5'>
             <p className='pl-4'>Name</p>
