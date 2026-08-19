@@ -1,14 +1,14 @@
 import express from "express";
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
-import userRouter from "./routes/user";
-import { errorHandler } from "./middleware/error";
+import userRouter from "./routes/user.js";
+import { errorHandler } from "./middleware/error.js";
 import "dotenv/config";
 import cors from "cors";
-import { authenticateUser, authenticateUserOnSocket, authReq } from "./middleware/auth";
-import db from "./db"
-import { ChatEvents } from "./events/chatEvents";
-import { UserEvents } from "./events/userEvents";
+import { authenticateUser, authenticateUserOnSocket, authReq } from "./middleware/auth.js";
+import db from "./db.js"
+import { ChatEvents } from "./events/chatEvents.js";
+import { UserEvents } from "./events/userEvents.js";
 const app = express();
 const server = createServer(app);
 export const io = new Server(server,{cors:{

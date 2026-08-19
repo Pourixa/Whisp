@@ -1,6 +1,5 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { NextFunction, Request, Response } from "express";
-import { message } from '../generated/prisma/client';
 
 type CustomError =  {
     message:string,

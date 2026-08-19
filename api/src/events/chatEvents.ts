@@ -1,5 +1,5 @@
 import { Socket,Server } from "socket.io";
-import db from "../db"
+import db from "../db.js"
 
 
 function validateMessage(data: any) {

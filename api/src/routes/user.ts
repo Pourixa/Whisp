@@ -1,12 +1,12 @@
 import express from "express"
-import { authenticateUser, authReq } from '../middleware/auth';
-import db from "../db"
-import { validateCredentials } from "../middleware/inputValidation";
+import { authenticateUser, authReq } from '../middleware/auth.js';
+import db from "../db.js"
+import { validateCredentials } from "../middleware/inputValidation.js";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import multer from "multer";
 import { createClient } from '@supabase/supabase-js'
-import prisma from "../db";
+import prisma from "../db.js";
 
 const supabase = createClient(process.env.PROJECT_URL as string, process.env.ACCESS_TOKEN as string)
 const upload = multer({storage: multer.memoryStorage()})
