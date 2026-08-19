@@ -2,7 +2,6 @@ import { Logo } from "#components/logo";
 import { Input } from "#components/ui/input";
 import { Button } from "#components/ui/button";
 import { useState } from "react";
-import type { MouseEvent } from "react";
 import { Notif } from "#components/Alert";
 import { makeOptions, makeurl } from "#lib/fetch";
 import { Navigate, useNavigate } from "react-router";
@@ -14,7 +13,7 @@ export function Signup() {
     const [loading,setLoading] = useState(false)
     const nav = useNavigate()
 
-    async function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
+    async function handleSubmit() {
         setLoading(true)
         const res = await fetch(makeurl("/user/signup"),makeOptions("post",{
             username:user,
@@ -41,7 +40,7 @@ export function Signup() {
         <Logo classname="pl-2"/>
         <Input minLength={5} required className="m-0.5 focus:placeholder:block focus:placeholder:text-xs focus:placeholder:-translate-y-full placeholder:transition-all p-5 pt-7 pb-7 placeholder:pb-1" onChange={(e) => setUser(e.target.value)} placeholder="Username"/>
         <Input type="password" onChange={(e) => setPass(e.target.value)} required minLength={8} className="m-0.5 focus:placeholder:block focus:placeholder:text-xs focus:placeholder:-translate-y-full p-5 pt-7 pb-7 placeholder:transition-all placeholder:pb-1" placeholder="Password"/>
-        <Button disabled={ loading || user.length < 5 || pass.length < 8 ? true : false } className={"disabled:pointer-events-none"} onClick={e => handleSubmit(e)}>Sign Up</Button>
+        <Button disabled={ loading || user.length < 5 || pass.length < 8 ? true : false } className={"disabled:pointer-events-none"} onClick={() => handleSubmit()}>Sign Up</Button>
         <a href="/login" className="font-semibold">
             Already Whispering? Sign in now.
         </a> 

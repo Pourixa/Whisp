@@ -18,7 +18,7 @@ import { useTheme } from "#components/themeProvider";
 
   
 
-function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser} : 
+function Chats({openedChatID,setOpenedChatID , selected,setSelected,user} : 
   {
     openedChatID:string | null, setOpenedChatID:React.Dispatch<SetStateAction<string | null>>,
     selected:string,setSelected:React.Dispatch<SetStateAction<string>>,
@@ -85,6 +85,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
                 {pending.length > 0 &&
                   pending.map((res: any) => (
                     <Friend
+
                       isFriend={false}
                       user={res.sender}
                       key={res.senderUsername + res.receiverUsername}
