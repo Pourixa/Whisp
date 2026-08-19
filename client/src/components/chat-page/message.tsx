@@ -1,8 +1,7 @@
     import { Bubble, BubbleContent } from "#components/ui/bubble";
     import { Message, MessageContent, MessageFooter } from "#components/ui/message";
-    import type { message } from "#lib/types";
 
-    export function ChatMessage({message,username}:{message:message,username:string})
+    export function ChatMessage({isGroup , message,username}:{isGroup:boolean , message:any,username:string})
     {
         const date = new Date(message.dateCreated)
         return <Message className="grid" align={message.username === username ? "end" : "start"}>
@@ -12,7 +11,7 @@
             </Bubble>
         </MessageContent>
         <MessageFooter>
-            <span>{date.toLocaleDateString("en-GB") + " - " + date.toLocaleTimeString("en-GB").slice(0,5)}</span>
+            <span>{(isGroup ? message.username + " - " : "") + date.toLocaleDateString("en-GB") + " - " + date.toLocaleTimeString("en-GB").slice(0,5)}</span>
         </MessageFooter>
         </Message>
     } 

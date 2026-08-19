@@ -33,7 +33,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
     if(selected==="all")
       return all
     else if (selected === "groups")
-      return all.filter((chat:any) => chat.members > 1)
+      return all.filter((chat:any) => chat.members.length > 1)
     else if (selected === "friends")
     {
       pending.push(...user.receivedRequests.filter((req:any) => req.status === "PENDING"))
@@ -66,30 +66,91 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
         </div>
       </div>
         <Tabs selected={selected} setSelected={setSelected}/>
-      {selected === "friends" ? <main className="flex flex-col gap-0.5 p-0.5">
-        {sentfriends.length + recivedfriends.length + pending.length > 0 ?
-         <>
-         {pending.length > 0 && pending.map((res:any) => {
-            return <Friend isFriend = {false}  user={res.sender} key={res.senderUsername+res.receiverUsername} />
-                   })}
-            <Separator orientation="horizontal" className={"mt-2 mb-2"}/>
-           {sentfriends.length > 0 && sentfriends.map((res:any) => {
-            return <Friend isFriend={true}  user={res.receiver} key={res.senderUsername+res.receiverUsername} />
-                   })}
-            {recivedfriends.length > 0 && recivedfriends.map((res:any) => {
-            return <Friend isFriend={true}  user={res.sender} key={res.senderUsername+res.receiverUsername} />
-                   })}
-         </>
-        : <EmptyChatList text="No friends yet"/>}
-      </main> : selected != "search" ? <main className="flex flex-col gap-0.5 p-0.5">
-        {selectedChats?.length > 0 ? user.chats.map((chat:any,idx:any) => {
-          return <Chat  openedChatID={openedChatID} setOpenedChatID={setOpenedChatID} chat={chat} key={idx} />
-        }): <EmptyChatList text="No chats yet"/>}
-      </main> : <main className="@container flex flex-col gap-0.5 p-0.5">
-        {result?.length > 0 ? result.map((res,idx) => {
-          return <UserSearch selfUser={user} user={res} key={idx} />
-        }) : <EmptyChatList text="Search for some whisperers"/>}
-      </main>}
+            {
+        selected === "friends" ? (
+          <main className="flex flex-col gap-0.5 p-0.5">
+            {sentfriends.length + recivedfriends.length + pending.length > 0 ? (
+              <>
+                {pending.length > 0 &&
+                  pending.map((res: any) => (
+                    <Friend
+                      isFriend={false}
+                      user={res.sender}
+                      key={res.senderUsername + res.receiverUsername}
+                    />
+                  ))}
+
+                <Separator orientation="horizontal" className="mt-2 mb-2" />
+
+                {sentfriends.length > 0 &&
+                  sentfriends.map((res: any) => (
+                    <Friend
+                      isFriend={true}
+                      user={res.receiver}
+                      key={res.senderUsername + res.receiverUsername}
+                    />
+                  ))}
+
+                {recivedfriends.length > 0 &&
+                  recivedfriends.map((res: any) => (
+                    <Friend
+                      isFriend={true}
+                      user={res.sender}
+                      key={res.senderUsername + res.receiverUsername}
+                    />
+                  ))}
+              </>
+            ) : (
+              <EmptyChatList text="No friends yet" />
+            )}
+          </main>
+        ) : selected === "groups" ? (
+          <main className="flex flex-col gap-0.5 p-0.5">
+            {selectedChats?.length > 0 ? (
+              selectedChats
+                .map((chat: any) => (
+                  <Chat
+                    openedChatID={openedChatID}
+                    setOpenedChatID={setOpenedChatID}
+                    chat={chat}
+                    key={chat.id}
+                  />
+                ))
+            ) : (
+              <EmptyChatList text="No groups yet" />
+            )}
+          </main>
+        ) : selected !== "search" ? (
+          <main className="flex flex-col gap-0.5 p-0.5">
+            {selectedChats?.length > 0 ? (
+              user.chats.map((chat: any) => (
+                <Chat
+                  openedChatID={openedChatID}
+                  setOpenedChatID={setOpenedChatID}
+                  chat={chat}
+                  key={chat.id}
+                />
+              ))
+            ) : (
+              <EmptyChatList text="No chats yet" />
+            )}
+          </main>
+        ) : (
+          <main className="@container flex flex-col gap-0.5 p-0.5">
+            {result?.length > 0 ? (
+              result.map((res: any, idx: number) => (
+                <UserSearch
+                  selfUser={user}
+                  user={res}
+                  key={idx}
+                />
+              ))
+            ) : (
+              <EmptyChatList text="Search for some whisperers" />
+            )}
+          </main>
+        )
+      }
       <Button onClick={() => nav("/creategroup")} className={"fixed bottom-4 right-4  rounded-full p-4"}>
         <BsPeople/>
         </Button>

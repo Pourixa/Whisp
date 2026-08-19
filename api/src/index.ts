@@ -5,7 +5,7 @@ import userRouter from "./routes/user";
 import { errorHandler } from "./middleware/error";
 import "dotenv/config";
 import cors from "cors";
-import { authenticateUserOnSocket } from "./middleware/auth";
+import { authenticateUser, authenticateUserOnSocket, authReq } from "./middleware/auth";
 import db from "./db"
 import { ChatEvents } from "./events/chatEvents";
 import { UserEvents } from "./events/userEvents";
@@ -21,6 +21,32 @@ app.use(cors({
 }))
 
 app.use("/user",userRouter);
+app.post("/creategroup",authenticateUser,async (req:authReq,res,next) => {
+  const data = req.body
+  if(data.users.length <=1 )
+    return res.status(400).json({message:"Not enough Members"})
+  else if (data.name.length < 3 )
+    return res.status(400).json({message:"Name must be at least 3 characters"})
+  try {
+    const users:any[] = [];
+    for(const user of data.users) {
+      users.push({username:user.username})
+    }
+    users.push({username:req.user.username})
+    await db.chat.create({
+      data:{
+        name:data.name,
+        members:{
+          connect:users
+        },
+      }
+    })
+    res.json({message:"Group created"})
+  } catch(e)
+  {
+    next(e)
+  }
+})
 
 app.use(errorHandler)
 

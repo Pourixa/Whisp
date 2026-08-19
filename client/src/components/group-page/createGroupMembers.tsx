@@ -15,7 +15,7 @@ export function CreateGroupMembers() {
                   <ArrowLeft onClick={() => nav("/")} className='flex w-fit items-center '/>
                   <h4>Create a new group</h4>
               </div>
-             <Button onClick={() => nav("creategroup/details")}>Next</Button>
+             <Button disabled={selectedUsers.length <=1} onClick={() => nav("creategroup/details")}>Next</Button>
             </div>
             <div className="flex items-center p-4 gap-2">
               <Search/>

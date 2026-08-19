@@ -27,12 +27,12 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
                       <ArrowLeft onClick={() => setOpenedChatID(null)}/>
                       {openedChat.members.length > 1 ? <ChatAvatar isOnline={false} src="" name={openedChat.name}/> : <ChatAvatar isOnline={openedChat.members[0].isOnline} src={openedChat.members[0].avatar} name={openedChat.members[0].name}/>}
                       </div>
-                    <div className="grid active:bg-ring grow p-1 rounded-xl" onClick={openedChat.members.length > 1 ? undefined : () => nav("/viewProfile/"+openedChat.members[0].username)}>
+                    <div className={`grid ${openedChat.members.length > 1 ? "" : "active:bg-ring"} grow p-1 rounded-xl`} onClick={openedChat.members.length > 1 ? undefined : () => nav("/viewProfile/"+openedChat.members[0].username)}>
                         <span className="line-clamp-1 text-ellipsis">{openedChat.members.length > 1 ? openedChat.name : openedChat.members[0].name}</span>
-                        <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + lastseen.toLocaleDateString("en-GB") + " at " +  lastseen.toLocaleTimeString("en-GB").slice(0,5)}</span>
+                        <span className="text-muted-foreground">{openedChat.members.length > 1 ? openedChat.members.length + 1 + " Members" : openedChat.members[0].isOnline ? "Online" : "Last seen " + lastseen.toLocaleDateString("en-GB") + " at " +  lastseen.toLocaleTimeString("en-GB").slice(0,5)}</span>
                     </div>
                 </div>
-                {openedChat.members.length > 1 ? <Button variant={"destructive"}>Leave</Button>
+                {openedChat.members.length > 1 ? <></>
                 : receivedRequests[0]?.status === "ACCEPTED" ||
                 sentRequests[0]?.status === "ACCEPTED" ? <Button onClick={() => socket.emit("user:rejectFriend",{username: (sentRequests.length > 0 ? sentRequests[0].receiverUsername : receivedRequests[0].senderUsername)})} variant={"destructive"}>Remove</Button> :
                 receivedRequests[0]?.status === "PENDING" ||
@@ -41,7 +41,7 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
             </header>
             <main className="grow overflow-y-auto mb-1 ml-1 mr-1 flex flex-col p-1">
                 {[...openedChat.messages].reverse().map((message,idx) => {
-                  return <ChatMessage message={message} username={user.username} key={idx}/>
+                  return <ChatMessage isGroup={openedChat.members.length > 1} message={message} username={user.username} key={idx}/>
                 })}
                 <div ref={bottomRef} />
             </main>
