@@ -176,13 +176,25 @@ userRouter.post("/update",upload.single("photoSrc"),authenticateUser ,async (req
             }
 
         })
-        } else {
+        } else if(req.body.remove === "false") {
             await db.user.update({
             where:{
                 username:req.user.username
             },
             data:{
-                avatar: "",
+                about:req.body.about,
+                name:req.body.name
+            }
+        })
+        }
+        else {
+
+        await db.user.update({
+            where:{
+                username:req.user.username
+            },
+            data:{
+                avatar:"",
                 about:req.body.about,
                 name:req.body.name
             }
@@ -193,6 +205,7 @@ userRouter.post("/update",upload.single("photoSrc"),authenticateUser ,async (req
         next(e)
     }
 })
+
 
 userRouter.get("/:username",authenticateUser , async (req:authReq,res,next) => {
     try{const user = await db.user.findUnique({

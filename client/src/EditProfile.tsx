@@ -17,6 +17,7 @@ export function EditProfile() {
     const [AboutChars,setAboutChars] = useState<null | string>(null)
     const [nameChars,setNameChars] = useState<null | string>(null)
     const [photoSrc,setPhotoSrc] = useState<null | any>(null)
+    const [remove,setRemove] = useState<string>("false")
     const nav = useNavigate()
     const token = localStorage.getItem("token") as string;
     const [buttonText,setButtonText] = useState("Save")
@@ -53,13 +54,14 @@ export function EditProfile() {
 
                 if (!file) return;
                 setPhotoSrc(file)
+                setRemove("false")
                 setUser((prev: any) => ({
                     ...prev,
                     avatar: URL.createObjectURL(file),
                 }));
             }} />
             {user.avatar != "" && <Button variant={"destructive"} onClick={() => {
-                setPhotoSrc("")
+                setRemove("true")
                 setUser((prev:any) => ({...prev,avatar:""}))
             }}>Remove</Button>}
         </div>
@@ -87,9 +89,9 @@ export function EditProfile() {
             setButtonText("Updating...")     
             const data = new FormData()
             data.append("about",AboutChars ?? "")    
-            data.append("name",nameChars ?? "")    
+            data.append("name",nameChars ?? "") 
+            data.append("remove",remove)   
             data.append("photoSrc",photoSrc)  
-
             const res = await fetch(`${import.meta.env.VITE_API_URL}/user/update`, {
             method: "POST",
             headers: {
@@ -99,7 +101,7 @@ export function EditProfile() {
         });
         console.log(res)
         if(!res.ok){
-            setButtonText("Update Failed. Retry")
+            setButtonText("Update Failed")
             return setTimeout(() => {
                 setButtonText("Save")
             }, 2000);

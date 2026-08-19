@@ -7,7 +7,9 @@ import { ViewProfile } from './viewProfile.tsx'
 import { Signup } from './signup.tsx'
 import { Login } from './login.tsx'
 import { ChatsNPage } from './ChatsNPage';
+import { CreateGroupMembers } from './components/group-page/createGroupMembers.tsx';
 import { CreateGroup } from './creatGroup.tsx'
+import { CreateGroupDetails } from '#components/group-page/createGroupDetails'
 
 const route = createBrowserRouter([
   {
@@ -31,9 +33,13 @@ const route = createBrowserRouter([
     element:<ViewProfile/>
   },
   {
-    path:"/createGroup",
-    element:<CreateGroup/>
-  }
+    path:"/creategroup",
+element:<CreateGroup/>,
+    children:[
+      {index:true,element:<CreateGroupMembers/>},
+      {path:"creategroup/details",element:<CreateGroupDetails/>}
+    ]
+    }
 ])
 
 
