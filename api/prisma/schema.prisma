@@ -51,6 +51,7 @@ enum requestStatus {
 }
 
 model friendShip {
+  id Int @id @default(autoincrement())
   senderUsername String
   receiverUsername String
   status requestStatus @default(PENDING)

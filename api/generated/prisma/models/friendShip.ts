@@ -20,23 +20,36 @@ export type friendShipModel = runtime.Types.Result.DefaultSelection<Prisma.$frie
 
 export type AggregateFriendShip = {
   _count: FriendShipCountAggregateOutputType | null
+  _avg: FriendShipAvgAggregateOutputType | null
+  _sum: FriendShipSumAggregateOutputType | null
   _min: FriendShipMinAggregateOutputType | null
   _max: FriendShipMaxAggregateOutputType | null
 }
 
+export type FriendShipAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type FriendShipSumAggregateOutputType = {
+  id: number | null
+}
+
 export type FriendShipMinAggregateOutputType = {
+  id: number | null
   senderUsername: string | null
   receiverUsername: string | null
   status: $Enums.requestStatus | null
 }
 
 export type FriendShipMaxAggregateOutputType = {
+  id: number | null
   senderUsername: string | null
   receiverUsername: string | null
   status: $Enums.requestStatus | null
 }
 
 export type FriendShipCountAggregateOutputType = {
+  id: number
   senderUsername: number
   receiverUsername: number
   status: number
@@ -44,19 +57,30 @@ export type FriendShipCountAggregateOutputType = {
 }
 
 
+export type FriendShipAvgAggregateInputType = {
+  id?: true
+}
+
+export type FriendShipSumAggregateInputType = {
+  id?: true
+}
+
 export type FriendShipMinAggregateInputType = {
+  id?: true
   senderUsername?: true
   receiverUsername?: true
   status?: true
 }
 
 export type FriendShipMaxAggregateInputType = {
+  id?: true
   senderUsername?: true
   receiverUsername?: true
   status?: true
 }
 
 export type FriendShipCountAggregateInputType = {
+  id?: true
   senderUsername?: true
   receiverUsername?: true
   status?: true
@@ -101,6 +125,18 @@ export type FriendShipAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: FriendShipAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: FriendShipSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: FriendShipMinAggregateInputType
@@ -131,15 +167,20 @@ export type friendShipGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: FriendShipCountAggregateInputType | true
+  _avg?: FriendShipAvgAggregateInputType
+  _sum?: FriendShipSumAggregateInputType
   _min?: FriendShipMinAggregateInputType
   _max?: FriendShipMaxAggregateInputType
 }
 
 export type FriendShipGroupByOutputType = {
+  id: number
   senderUsername: string
   receiverUsername: string
   status: $Enums.requestStatus
   _count: FriendShipCountAggregateOutputType | null
+  _avg: FriendShipAvgAggregateOutputType | null
+  _sum: FriendShipSumAggregateOutputType | null
   _min: FriendShipMinAggregateOutputType | null
   _max: FriendShipMaxAggregateOutputType | null
 }
@@ -163,6 +204,7 @@ export type friendShipWhereInput = {
   AND?: Prisma.friendShipWhereInput | Prisma.friendShipWhereInput[]
   OR?: Prisma.friendShipWhereInput[]
   NOT?: Prisma.friendShipWhereInput | Prisma.friendShipWhereInput[]
+  id?: Prisma.IntFilter<"friendShip"> | number
   senderUsername?: Prisma.StringFilter<"friendShip"> | string
   receiverUsername?: Prisma.StringFilter<"friendShip"> | string
   status?: Prisma.EnumrequestStatusFilter<"friendShip"> | $Enums.requestStatus
@@ -171,6 +213,7 @@ export type friendShipWhereInput = {
 }
 
 export type friendShipOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
   senderUsername?: Prisma.SortOrder
   receiverUsername?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -179,6 +222,7 @@ export type friendShipOrderByWithRelationInput = {
 }
 
 export type friendShipWhereUniqueInput = Prisma.AtLeast<{
+  id?: number
   senderUsername_receiverUsername?: Prisma.friendShipSenderUsernameReceiverUsernameCompoundUniqueInput
   AND?: Prisma.friendShipWhereInput | Prisma.friendShipWhereInput[]
   OR?: Prisma.friendShipWhereInput[]
@@ -188,21 +232,25 @@ export type friendShipWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumrequestStatusFilter<"friendShip"> | $Enums.requestStatus
   sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
   receiver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
-}, "senderUsername_receiverUsername">
+}, "id" | "senderUsername_receiverUsername">
 
 export type friendShipOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
   senderUsername?: Prisma.SortOrder
   receiverUsername?: Prisma.SortOrder
   status?: Prisma.SortOrder
   _count?: Prisma.friendShipCountOrderByAggregateInput
+  _avg?: Prisma.friendShipAvgOrderByAggregateInput
   _max?: Prisma.friendShipMaxOrderByAggregateInput
   _min?: Prisma.friendShipMinOrderByAggregateInput
+  _sum?: Prisma.friendShipSumOrderByAggregateInput
 }
 
 export type friendShipScalarWhereWithAggregatesInput = {
   AND?: Prisma.friendShipScalarWhereWithAggregatesInput | Prisma.friendShipScalarWhereWithAggregatesInput[]
   OR?: Prisma.friendShipScalarWhereWithAggregatesInput[]
   NOT?: Prisma.friendShipScalarWhereWithAggregatesInput | Prisma.friendShipScalarWhereWithAggregatesInput[]
+  id?: Prisma.IntWithAggregatesFilter<"friendShip"> | number
   senderUsername?: Prisma.StringWithAggregatesFilter<"friendShip"> | string
   receiverUsername?: Prisma.StringWithAggregatesFilter<"friendShip"> | string
   status?: Prisma.EnumrequestStatusWithAggregatesFilter<"friendShip"> | $Enums.requestStatus
@@ -215,6 +263,7 @@ export type friendShipCreateInput = {
 }
 
 export type friendShipUncheckedCreateInput = {
+  id?: number
   senderUsername: string
   receiverUsername: string
   status?: $Enums.requestStatus
@@ -227,12 +276,14 @@ export type friendShipUpdateInput = {
 }
 
 export type friendShipUncheckedUpdateInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   senderUsername?: Prisma.StringFieldUpdateOperationsInput | string
   receiverUsername?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumrequestStatusFieldUpdateOperationsInput | $Enums.requestStatus
 }
 
 export type friendShipCreateManyInput = {
+  id?: number
   senderUsername: string
   receiverUsername: string
   status?: $Enums.requestStatus
@@ -243,6 +294,7 @@ export type friendShipUpdateManyMutationInput = {
 }
 
 export type friendShipUncheckedUpdateManyInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   senderUsername?: Prisma.StringFieldUpdateOperationsInput | string
   receiverUsername?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumrequestStatusFieldUpdateOperationsInput | $Enums.requestStatus
@@ -264,21 +316,32 @@ export type friendShipSenderUsernameReceiverUsernameCompoundUniqueInput = {
 }
 
 export type friendShipCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   senderUsername?: Prisma.SortOrder
   receiverUsername?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
+export type friendShipAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type friendShipMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   senderUsername?: Prisma.SortOrder
   receiverUsername?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type friendShipMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   senderUsername?: Prisma.SortOrder
   receiverUsername?: Prisma.SortOrder
   status?: Prisma.SortOrder
+}
+
+export type friendShipSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type friendShipCreateNestedManyWithoutSenderInput = {
@@ -369,12 +432,21 @@ export type EnumrequestStatusFieldUpdateOperationsInput = {
   set?: $Enums.requestStatus
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type friendShipCreateWithoutSenderInput = {
   status?: $Enums.requestStatus
   receiver: Prisma.userCreateNestedOneWithoutReceivedRequestsInput
 }
 
 export type friendShipUncheckedCreateWithoutSenderInput = {
+  id?: number
   receiverUsername: string
   status?: $Enums.requestStatus
 }
@@ -395,6 +467,7 @@ export type friendShipCreateWithoutReceiverInput = {
 }
 
 export type friendShipUncheckedCreateWithoutReceiverInput = {
+  id?: number
   senderUsername: string
   status?: $Enums.requestStatus
 }
@@ -429,6 +502,7 @@ export type friendShipScalarWhereInput = {
   AND?: Prisma.friendShipScalarWhereInput | Prisma.friendShipScalarWhereInput[]
   OR?: Prisma.friendShipScalarWhereInput[]
   NOT?: Prisma.friendShipScalarWhereInput | Prisma.friendShipScalarWhereInput[]
+  id?: Prisma.IntFilter<"friendShip"> | number
   senderUsername?: Prisma.StringFilter<"friendShip"> | string
   receiverUsername?: Prisma.StringFilter<"friendShip"> | string
   status?: Prisma.EnumrequestStatusFilter<"friendShip"> | $Enums.requestStatus
@@ -451,11 +525,13 @@ export type friendShipUpdateManyWithWhereWithoutReceiverInput = {
 }
 
 export type friendShipCreateManySenderInput = {
+  id?: number
   receiverUsername: string
   status?: $Enums.requestStatus
 }
 
 export type friendShipCreateManyReceiverInput = {
+  id?: number
   senderUsername: string
   status?: $Enums.requestStatus
 }
@@ -466,11 +542,13 @@ export type friendShipUpdateWithoutSenderInput = {
 }
 
 export type friendShipUncheckedUpdateWithoutSenderInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   receiverUsername?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumrequestStatusFieldUpdateOperationsInput | $Enums.requestStatus
 }
 
 export type friendShipUncheckedUpdateManyWithoutSenderInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   receiverUsername?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumrequestStatusFieldUpdateOperationsInput | $Enums.requestStatus
 }
@@ -481,11 +559,13 @@ export type friendShipUpdateWithoutReceiverInput = {
 }
 
 export type friendShipUncheckedUpdateWithoutReceiverInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   senderUsername?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumrequestStatusFieldUpdateOperationsInput | $Enums.requestStatus
 }
 
 export type friendShipUncheckedUpdateManyWithoutReceiverInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   senderUsername?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumrequestStatusFieldUpdateOperationsInput | $Enums.requestStatus
 }
@@ -493,6 +573,7 @@ export type friendShipUncheckedUpdateManyWithoutReceiverInput = {
 
 
 export type friendShipSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   senderUsername?: boolean
   receiverUsername?: boolean
   status?: boolean
@@ -501,6 +582,7 @@ export type friendShipSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 }, ExtArgs["result"]["friendShip"]>
 
 export type friendShipSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   senderUsername?: boolean
   receiverUsername?: boolean
   status?: boolean
@@ -509,6 +591,7 @@ export type friendShipSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 }, ExtArgs["result"]["friendShip"]>
 
 export type friendShipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   senderUsername?: boolean
   receiverUsername?: boolean
   status?: boolean
@@ -517,12 +600,13 @@ export type friendShipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 }, ExtArgs["result"]["friendShip"]>
 
 export type friendShipSelectScalar = {
+  id?: boolean
   senderUsername?: boolean
   receiverUsername?: boolean
   status?: boolean
 }
 
-export type friendShipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"senderUsername" | "receiverUsername" | "status", ExtArgs["result"]["friendShip"]>
+export type friendShipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "senderUsername" | "receiverUsername" | "status", ExtArgs["result"]["friendShip"]>
 export type friendShipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sender?: boolean | Prisma.userDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.userDefaultArgs<ExtArgs>
@@ -543,6 +627,7 @@ export type $friendShipPayload<ExtArgs extends runtime.Types.Extensions.Internal
     receiver: Prisma.$userPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: number
     senderUsername: string
     receiverUsername: string
     status: $Enums.requestStatus
@@ -629,8 +714,8 @@ export interface friendShipDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 FriendShips
    * const friendShips = await prisma.friendShip.findMany({ take: 10 })
    * 
-   * // Only select the `senderUsername`
-   * const friendShipWithSenderUsernameOnly = await prisma.friendShip.findMany({ select: { senderUsername: true } })
+   * // Only select the `id`
+   * const friendShipWithIdOnly = await prisma.friendShip.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends friendShipFindManyArgs>(args?: Prisma.SelectSubset<T, friendShipFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$friendShipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -674,9 +759,9 @@ export interface friendShipDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many FriendShips and only return the `senderUsername`
-   * const friendShipWithSenderUsernameOnly = await prisma.friendShip.createManyAndReturn({
-   *   select: { senderUsername: true },
+   * // Create many FriendShips and only return the `id`
+   * const friendShipWithIdOnly = await prisma.friendShip.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -765,9 +850,9 @@ export interface friendShipDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more FriendShips and only return the `senderUsername`
-   * const friendShipWithSenderUsernameOnly = await prisma.friendShip.updateManyAndReturn({
-   *   select: { senderUsername: true },
+   * // Update zero or more FriendShips and only return the `id`
+   * const friendShipWithIdOnly = await prisma.friendShip.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -971,6 +1056,7 @@ export interface Prisma__friendShipClient<T, Null = never, ExtArgs extends runti
  * Fields of the friendShip model
  */
 export interface friendShipFieldRefs {
+  readonly id: Prisma.FieldRef<"friendShip", 'Int'>
   readonly senderUsername: Prisma.FieldRef<"friendShip", 'String'>
   readonly receiverUsername: Prisma.FieldRef<"friendShip", 'String'>
   readonly status: Prisma.FieldRef<"friendShip", 'requestStatus'>

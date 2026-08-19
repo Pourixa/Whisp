@@ -108,6 +108,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 
 export const FriendShipScalarFieldEnum = {
+  id: 'id',
   senderUsername: 'senderUsername',
   receiverUsername: 'receiverUsername',
   status: 'status'

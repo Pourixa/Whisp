@@ -790,6 +790,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 
 export const FriendShipScalarFieldEnum = {
+  id: 'id',
   senderUsername: 'senderUsername',
   receiverUsername: 'receiverUsername',
   status: 'status'
@@ -864,6 +865,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'requestStatus'
  */
 export type EnumrequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'requestStatus'>
@@ -878,16 +893,16 @@ export type ListEnumrequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
- * Reference to a field of type 'Int'
+ * Reference to a field of type 'Float'
  */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
 /**
- * Reference to a field of type 'Int[]'
+ * Reference to a field of type 'Float[]'
  */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
