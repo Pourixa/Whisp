@@ -10,6 +10,10 @@ import prisma from "../db";
 
 const supabase = createClient(process.env.PROJECT_URL as string, process.env.ACCESS_TOKEN as string)
 const upload = multer({storage: multer.memoryStorage()})
+const messageImageUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 }
+})
 
 const userRouter = express.Router()
 
@@ -201,6 +205,26 @@ userRouter.post("/update",upload.single("photoSrc"),authenticateUser ,async (req
         })
         }
         res.json({message:"Profile updated"})
+    } catch (e) {
+        next(e)
+    }
+})
+
+userRouter.post("/message-image",messageImageUpload.single("image"),authenticateUser ,async (req:authReq,res,next) => {
+    try {
+        if (!req.file || !req.file.mimetype.startsWith("image/"))
+            return res.status(400).json({message:"A valid image is required"})
+
+        const path = `${req.user.username}/${crypto.randomUUID()}-${req.file.originalname}`
+        const { data, error } = await supabase.storage.from("messages").upload(path,req.file.buffer,{
+            contentType:req.file.mimetype,
+            upsert:false
+        })
+        if (error)
+            throw error
+
+        const { data: publicUrl } = supabase.storage.from("messages").getPublicUrl(data.path)
+        res.json({imageSrc:publicUrl.publicUrl})
     } catch (e) {
         next(e)
     }

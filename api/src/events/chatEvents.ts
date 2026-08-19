@@ -3,11 +3,11 @@ import db from "../db"
 
 
 function validateMessage(data: any) {
-    if (typeof data.content !== "string")
-        return "Invalid content";
-
-    if (!data.content.trim())
+    if (typeof data.content !== "string" || (!data.content.trim() && !data.imageSrc))
         return "Message cannot be empty";
+
+    if (data.imageSrc && typeof data.imageSrc !== "string")
+        return "Invalid image";
 
     if (typeof data.chatid !== "string")
         return "Invalid chat ID";
@@ -47,7 +47,9 @@ export function ChatEvents(socket: Socket,io:Server) {
             const message = await db.message.create({
                 data:{
                     username:socket.data.user.username,
-                    content:data.content,
+                    content:data.content?.trim() || null,
+                    isImage:Boolean(data.imageSrc),
+                    imageSrc:data.imageSrc || null,
                     groupID:data.chatid
                 }
             })

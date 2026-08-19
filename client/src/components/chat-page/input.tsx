@@ -3,6 +3,7 @@ import { Image, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import type {Socket} from 'socket.io-client';
 import { makeurl } from "#lib/fetch";
+import { Attachment, AttachmentMedia } from "#components/ui/attachment";
 
 
 export function ChatInput({socket,chatid} : {socket:Socket,chatid:string}) 
@@ -39,17 +40,24 @@ export function ChatInput({socket,chatid} : {socket:Socket,chatid:string})
             setIsSending(false)
         }
     }
-
-    return    <InputGroup className="p-1 rounded-none rounded-tl-md rounded-tr-md border-t-0.1 border-t-ring border-l-0.1 border-l-ring border-r-0.1 border-r-ring">
-            <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={(event) => setSelectedImage(event.target.files?.[0] || null)}/>
-            <InputGroupButton onClick={() => imageInputRef.current?.click()} aria-label="Attach image" className="self-baseline-last">
-                <Image/>
-            </InputGroupButton>
-            <InputGroupTextarea value={message} placeholder="Write something" minLength={1} className="max-h-32 ml-0.5 mr-0.5" onChange={(e) => {
-                setMessage(e.target.value)
-            }}/>
-            <InputGroupButton onClick={sendMessage} className={"self-baseline-last text-background bg-foreground flex justify-center align-middle disabled:pointer-events-none"} disabled={(!message.trim() && !selectedImage) || isSending}>
-                <Send />
-            </InputGroupButton>
-            </InputGroup>
+    console.log(selectedImage)
+    return <div>
+        <InputGroup className={`grid grid-rows-${selectedImage ? 2 : 1} grid-cols-[auto_1fr_auto] p-1 rounded-none rounded-tl-md rounded-tr-md border-t-0.1 border-t-ring border-l-0.1 border-l-ring border-r-0.1 border-r-ring`}>
+        {selectedImage && <Attachment className="col-span-3" orientation={"vertical"}>
+                <AttachmentMedia variant={"image"}>
+                    <img src={URL.createObjectURL(selectedImage)} alt="" />
+                </AttachmentMedia>
+                </Attachment>}
+                <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={(event) => setSelectedImage(event.target.files?.[0] || null)}/>
+                <InputGroupButton  onClick={() => imageInputRef.current?.click()} aria-label="Attach image" className="row-2 col-1 self-baseline-last">
+                    <Image/>
+                </InputGroupButton>
+                <InputGroupTextarea value={message} placeholder="Write something" minLength={1} className="row-2 col-2 max-h-32 ml-0.5 mr-0.5" onChange={(e) => {
+                    setMessage(e.target.value)
+                }}/>
+                <InputGroupButton onClick={sendMessage} className={" col-3 row-2 text-background bg-foreground flex justify-center align-middle disabled:pointer-events-none self-baseline-last"} disabled={(!message.trim() && !selectedImage) || isSending}>
+                    <Send />
+                </InputGroupButton>
+                </InputGroup>
+    </div>
 }
