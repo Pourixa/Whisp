@@ -216,7 +216,7 @@ export function ChatsNPage() {
     </div>;
     }
     return (
-        <div className="flex">
+        <div className="flex @container h-dvh" >
             <Chats
                 openedChatID={openedChatID}
                 setOpenedChatID={setOpenedChatID}

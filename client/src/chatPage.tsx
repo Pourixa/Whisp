@@ -7,6 +7,7 @@ import { ChatAvatar } from "#components/avatar";
 import { ChatMessage } from "#components/chat-page/message";
 import type { Socket } from "socket.io-client";
 import { useNavigate } from "react-router";
+import { EmptyChatList } from './components/chat-list/emptychatList';
 
 
 export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:Socket,user:any,openedChatID:string | null,setOpenedChatID:React.Dispatch<SetStateAction<string | null>>}) {
@@ -19,7 +20,7 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
     useEffect(() => {
         bottomRef.current?.scrollIntoView({behavior:"smooth"})
     },[openedChat?.messages])
-    return <div className={`h-svh w-full flex-col justify-between ${!openedChatID ? "hidden" : "flex"}`}>
+    return <div className={`h-svh w-full flex-col justify-between ${!openedChatID ? "hidden" : "flex"} @lg:flex`}>
         {openedChat ? <>
             <header className="flex  gap-4 p-2 items-center">
                 <div className="flex gap-3 items-center grow">
@@ -48,6 +49,8 @@ export function ChatPage({user , socket ,openedChatID,setOpenedChatID}:{socket:S
             <footer>
                 <ChatInput socket={socket} chatid={openedChat.id}/>
             </footer>
-        </> : <main></main>}
+        </> : <main className="flex h-full justify-center items-center"> 
+                <EmptyChatList text="No chat is open"/>
+            </main>}
     </div>
 }

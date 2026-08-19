@@ -48,7 +48,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
       setResult(await stream.json())})()
   },[searchQuery])
   return (
-    <div className={`flex-col ${!openedChatID ? "flex" : "hidden"} w-full`}>
+    <div className={`flex-col @lg:overflow-auto @lg:border-ring  @lg:border-r-2 @lg:relative @lg:flex ${!openedChatID ? "flex" : "hidden"} w-full`}>
       <div className="sticky top-0 bg-background z-50">
         <header className="flex justify-between p-4">
           <Logo classname=""/>
@@ -151,7 +151,7 @@ function Chats({openedChatID,setOpenedChatID , selected,setSelected,user,setUser
           </main>
         )
       }
-      <Button onClick={() => nav("/creategroup")} className={"fixed bottom-4 right-4  rounded-full p-4"}>
+      <Button onClick={() => nav("/creategroup")} className={" @lg:right-[calc(50%+1em)] fixed bottom-4 right-4  rounded-full p-4"}>
         <BsPeople/>
         </Button>
     </div>
