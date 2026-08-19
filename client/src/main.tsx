@@ -10,11 +10,13 @@ import { ChatsNPage } from './ChatsNPage';
 import { CreateGroupMembers } from './components/group-page/createGroupMembers.tsx';
 import { CreateGroup } from './creatGroup.tsx'
 import { CreateGroupDetails } from '#components/group-page/createGroupDetails'
+import { RouterError } from './routerError'
 
 const route = createBrowserRouter([
   {
     path:"/",
     element:<ChatsNPage/>,
+    errorElement:<RouterError/>,
   } , 
   {
     path:"/login",
