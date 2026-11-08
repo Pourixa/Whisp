@@ -146,5 +146,6 @@ These are the repository's configured commands, not a claim that the builds curr
 ## Preview
 
 ![Whisp sign-in page](docs/screenshots/whisp-login.jpg)
+![Whisp sign-in page](docs/screenshots/whisp-home.jpg)
 
 ---
